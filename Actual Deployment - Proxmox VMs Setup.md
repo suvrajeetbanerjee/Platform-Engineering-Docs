@@ -1,4 +1,4 @@
-# ACTUAL DEPLOYMENT - Your Proxmox VMs Setup
+# Actual Deployment - Your Proxmox VMs Setup
 
 **Status**: You have Proxmox with VMs → Now setup everything inside **Target**: Day 1 Deployment (Real Commands You Run Today)
 
