@@ -60,3 +60,54 @@ For a platform engineer provisioning VMs for a Kubernetes cluster, the basic ope
 * **Thin Provisioning Expansion (Discard/TRIM):** On thin-provisioned storage (LVM-Thin/ZFS), you must check the **Discard** box and enable **QEMU Guest Agent** so deleted files inside the guest release space on the physical storage.
 * **IOMMU and Hardware Passthrough Failures:** Passing through GPUs/NICs requires enabling **VT-d / AMD-Vi** in BIOS and adding `intel_iommu=on` or `amd_iommu=on` to the Linux kernel command line.
 * **Kubernetes Storage with CSI:** To automate storage, use the `proxmox-csi-plugin`. This dynamically creates virtual disks for Kubernetes **PersistentVolumeClaims (PVC)**.
+
+
+
+---
+
+## Implementation
+
+### 1. Environment Decisions and Cleanup
+- Dropped the earlier Linode Kubernetes Engine (LKE) cluster to regain **full control with kubeadm** and align with on‑prem style architecture.
+- Decided to treat Linode VMs as **bare‑metal equivalents** for the lab, matching the Host360 Proxmox design conceptually (control planes + workers, HAProxy later).
+
+### 2. Bastion / Admin Host Setup
+- Created a dedicated **bastion VM** (`admin-platform`) on Linode:
+  - OS: Ubuntu (24.04 from output).
+  - Network: Public Internet (no cloud firewall yet; hardening planned later).
+- Clarified the role of the bastion:
+  - Single **operations entry point**: laptop → bastion → all cluster nodes.
+  - All K8s and infra commands will be executed from the bastion, not from Windows terminals.
+
+### 3. Staging Kubernetes Node Layout (VM Provisioning)
+- Provisioned **6 Linode VMs** for the staging cluster:
+  - Control plane nodes:
+    - `stg-cp1` – "xxx.xxx.xxx"
+    - `stg-cp2` – "xxx.xxx.xxx"
+    - `stg-cp3` – "xxx.xxx.xxx"
+  - Worker nodes:
+    - `stg-worker1` – "xxx.xxx.xxx"
+    - `stg-worker2` – "xxx.xxx.xxx"
+    - `stg-worker3` – "xxx.xxx.xxx"
+- Chose **Public Internet** networking for all nodes to keep the initial setup simple; VLAN/VPC hardening deferred to a later phase.
+
+### 4. SSH Key-Based Access via Bastion
+- On `admin-platform`:
+  - Generated an **Ed25519 SSH keypair** (`/root/.ssh/id_ed25519` and `.pub`).
+  - Used `ssh-copy-id` to install the public key on all 6 staging nodes.
+- Verified passwordless SSH:
+  - Confirmed `ssh root@<node-ip>` works **without password** for:
+    - `stg-cp1`, `stg-cp2`, `stg-cp3`
+    - `stg-worker1`, `stg-worker2`, `stg-worker3`
+- Wrote and executed a small helper script (`pblky2nds.sh`) on the bastion to automate `ssh-copy-id` against all node IPs.
+
+### 5. Phase 1 Progress (Cluster Setup Roadmap)
+- Completed:
+  - **Phase 1 – Step 0: Bastion & SSH setup**
+    - Bastion host created and reachable.
+    - Key‑based SSH configured from bastion to all future K8s nodes.
+    - Set hostnames (`stg-cp1..3`, `stg-worker1..3`).
+    - Disabled swap and configure required `sysctl` settings for Kubernetes networking.
+- Next steps :
+  - **Phase 1 – Step 2: Install containerd + kubeadm/kubelet/kubectl**
+    - Prepare all 6 nodes for kubeadm `init`/`join`
