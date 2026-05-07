@@ -212,3 +212,301 @@ Machine-ID: MUST be unique on every cloned VM
 ***
 
 *Last updated: 06 May 2026 23:18 IST*
+
+---
+
+
+
+# 🚀 AIML Platform — Kubernetes + Rancher on Proxmox VE | Progress Log
+
+> **Project:** AIML Platform — Staging K8s Cluster with Rancher UI  
+> **Cluster Name:** `host360-staging`  
+> **Environment:** Proxmox VE 9.1.1 (controller-1 + controller-2 + director)  
+> **Date:** 07 May 2026  
+> **Author:** Surajeet Banerjee  
+> **Status:** 🟡 In Progress — Master-1 init done, CNI pending, workers pending
+
+---
+
+## 📐 Final Architecture Decision
+
+After evaluating two approaches (kubeadm vs RKE2), the team is proceeding with:
+
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│  AIML-Stg-JumpServer (172.20.10.137) — Bastion / kubectl host  │
+└───────────────────────────┬─────────────────────────────────────┘
+                            │ manages
+          ┌─────────────────┼─────────────────┐
+          ▼                 ▼                 ▼
+  AIML-Stg-Master-1  AIML-Stg-Master-2  AIML-Stg-Master-3
+  172.20.10.141      172.20.10.142      172.20.10.143
+  (kubeadm init)     (join CP)          (join CP)
+          └─────────────────┼─────────────────┘
+                            │
+          ┌─────────────────┼─────────────────┐
+          ▼                 ▼                 ▼
+  AIML-Stg-Worker-1  AIML-Stg-Worker-2  AIML-Stg-Worker-3
+  172.20.10.144      172.20.10.145      172.20.10.146
+
+  ┌──────────────────────────────────────────────────────────┐
+  │  Rancher UI — installed via Helm AFTER cluster is Ready │
+  │  Access: https://rancher.172.20.10.141.nip.io           │
+  └──────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📦 VM Inventory
+
+| VMID | VM Name | Role | IP | vCPU | RAM | Disk | Host | Status |
+|------|---------|------|----|------|-----|------|------|--------|
+| 126 | Product-JumpServer | Bastion / kubectl | 172.20.10.137 | 2 | 4 GiB | 40 GiB | controller-1 | ✅ Running |
+| 135 | AIML-Stg-Master-1 | K8s Control Plane | 172.20.10.141 | 4 | 8 GiB | 40 GiB | controller-1 | ✅ kubeadm init done |
+| 136 | AIML-Stg-Master-2 | K8s Control Plane | 172.20.10.142 | 4 | 8 GiB | 40 GiB | controller-1 | 🔲 Pending |
+| 137 | AIML-Stg-Master-3 | K8s Control Plane | 172.20.10.143 | 4 | 8 GiB | 40 GiB | controller-2 | 🔲 Pending |
+| 138 | AIML-Stg-Worker-1 | K8s Worker | 172.20.10.144 | 8 | 16 GiB | 40 GiB | controller-1 | ✅ OS Ready |
+| 139 | AIML-Stg-Worker-2 | K8s Worker | 172.20.10.145 | 8 | 16 GiB | 40 GiB | controller-2 | 🔲 Pending |
+| 140 | AIML-Stg-Worker-3 | K8s Worker | 172.20.10.146 | 8 | 16 GiB | 40 GiB | controller-2 | 🔲 Pending |
+
+**IP Range:** `172.20.10.135 – 172.20.10.149`  
+**Network:** `vmbr0` | VLAN tag `10` | Gateway `172.20.10.1`  
+**Storage:** `local-zfs` on all VMs  
+**Pool:** `PRODUCT-`
+
+---
+
+## ✅ Completed — 07 May 2026
+
+### Proxmox Infrastructure
+- [x] All Proxmox nodes healthy — controller-1, controller-2, director confirmed green
+- [x] VLAN `10` confirmed as required tag on `vmbr0` for internet access — root cause of all previous failures
+- [x] VM 126 locked as JumpServer / Bastion role only
+- [x] VM 138 (Worker-1) Ubuntu installed, static IP `172.20.10.144`, internet verified
+
+### Master-1 — kubeadm Init (K8s v1.35.0)
+
+**sysprep checklist completed:**
+- [x] Swap disabled (`swapoff -a` + fstab commented)
+- [x] `overlay` + `br_netfilter` kernel modules loaded
+- [x] sysctl params applied (`bridge-nf-call-iptables`, `ip_forward`)
+- [x] `containerd` installed + `SystemdCgroup = true` set
+- [x] K8s v1.35 packages installed: `kubelet`, `kubeadm`, `kubectl`
+- [x] `qemu-guest-agent` installed and running
+
+**kubeadm init:**
+- [x] `kubeadm-config.yaml` written with correct cluster config
+- [x] `kubeadm init` completed successfully
+- [x] All certs generated (ca, apiserver, etcd, front-proxy, sa)
+- [x] `etcd`, `kube-apiserver`, `kube-controller-manager`, `kube-scheduler` all healthy
+- [x] `CoreDNS` + `kube-proxy` addons applied
+- [x] `KUBECONFIG=/etc/kubernetes/admin.conf` exported
+
+**kubeadm-config.yaml used:**
+```yaml
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+clusterName: host360-staging
+kubernetesVersion: v1.35.0
+controlPlaneEndpoint: "172.20.10.141:6443"
+networking:
+  podSubnet: "10.244.0.0/16"
+  serviceSubnet: "10.96.0.0/12"
+***
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: 172.20.10.141
+  bindPort: 6443
+nodeRegistration:
+  criSocket: unix:///run/containerd/containerd.sock
+```
+
+**kubeadm init output (key lines):**
+```text
+[certs] Generating "ca" certificate and key
+[certs] apiserver serving cert is signed for DNS names [aiml-stg-master-1 kubernetes ...] and IPs [10.96.0.1 172.20.10.141]
+[kubelet-check] The kubelet is healthy after 1.001255495s
+[control-plane-check] kube-apiserver is healthy after 4.001976792s
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+Your Kubernetes control-plane has initialized successfully!
+```
+
+**Bootstrap token generated:**
+```text
+Token:    drz8ek.5si2geombz458uyd
+CA Hash:  sha256:41d058990f6af02d40e326cac6b36fa58562deab9642619cb60750948ba3c069
+```
+
+> ⚠️ Token expires in 24 hours. Regenerate if expired:
+```bash
+kubeadm token create --print-join-command
+```
+
+---
+
+## ⚠️ Issues Found & Resolved
+
+### Issue 1 — `kubeadm-config.yaml` was appended multiple times
+**What happened:** `cat >>` was used instead of `cat >`, first with wrong IP `172.237.44.177`, later with correct IP.  
+**Impact:** File became dirty/corrupt, but kubeadm used the last valid block so init still succeeded.  
+**Resolution:** Rewrote config cleanly using `cat >` with correct `v1beta4` API.
+
+### Issue 2 — `--upload-certs` skipped
+**What happened:** kubeadm init ran without `--upload-certs`.  
+**Impact:** Master-2 and Master-3 cannot join as control plane nodes until cert key is uploaded.  
+**Resolution:**
+```bash
+kubeadm init phase upload-certs --upload-certs 2>&1 | tee /root/cert-key.txt
+```
+
+> ⚠️ Cert key expires in 2 hours. Re-run before Master-2/3 join if needed.
+
+### Issue 3 — Rogue Docker + Rancher container on Master-1
+**What happened:** `docker run rancher/rancher` was executed directly on the kubeadm control-plane node.  
+**Impact:** Trash architecture. Docker on master node creates runtime confusion and Rancher should not be run like this for HA setup.  
+**Resolution:**
+```bash
+docker stop priceless_grothendieck && docker rm priceless_grothendieck
+apt-get remove --purge -y docker.io && apt-get autoremove -y
+```
+
+### Issue 4 — QEMU compiled from source on JumpServer
+**What happened:** QEMU source build was attempted on jump host.  
+**Impact:** Wrong host, wrong objective, wasted time. `qm` exists only on Proxmox nodes, not inside guest VMs.  
+**Resolution:** Removed unnecessary QEMU source/build activity. JumpServer restricted to bastion + kubectl.
+
+### Issue 5 — Previous team VM failures
+**Root cause:** Missing VLAN tag `10` on `vmbr0`.  
+**Impact:** No gateway access, no internet, broken provisioning.  
+**Resolution:** All new VMs now explicitly use `vmbr0` + VLAN `10`.
+
+---
+
+## 🔑 Key Technical Decisions
+
+| Decision | Choice | Reason |
+|----------|--------|--------|
+| K8s bootstrap tool | `kubeadm` | Already initialized on Master-1; practical to continue |
+| Kubernetes version | `v1.35.0` | Latest stable used in current setup |
+| Container runtime | `containerd` | Docker is obsolete for modern K8s node runtime |
+| Cgroup driver | `SystemdCgroup = true` | Mandatory for Ubuntu with systemd cgroups |
+| CNI | `Flannel` | Matches configured `10.244.0.0/16` pod subnet |
+| Rancher install method | Helm on top of cluster | Correct HA-capable pattern |
+| API endpoint | `172.20.10.141:6443` | Temporary direct endpoint before VIP |
+| Future VIP | `172.20.10.148` | Planned HAProxy + Keepalived endpoint |
+| Network | `vmbr0` + VLAN `10` | Mandatory in this environment |
+| Storage | `local-zfs` | Infra rule + snapshot-friendly |
+
+---
+
+## 📋 Rancher Clarification
+
+**Rancher does NOT need Docker on the nodes.**
+
+```text
+OLD (wrong for modern K8s):
+kubelet → dockershim → Docker → containerd → runc
+
+CURRENT (correct):
+kubelet → CRI → containerd → runc
+```
+
+**Rancher runs as pods after Helm install:**
+```bash
+kubectl get pods -n cattle-system
+# rancher-xxxx Running
+```
+
+**Rancher install command (after cluster is healthy):**
+```bash
+helm install rancher rancher-stable/rancher \
+  --namespace cattle-system --create-namespace \
+  --set hostname=rancher.172.20.10.141.nip.io \
+  --set bootstrapPassword=ChangeMeStrongPassword \
+  --set replicas=3
+```
+
+---
+
+## 🔲 Pending Next Steps
+
+### Immediate
+- [ ] Run `kubectl get nodes` and confirm Master-1 is currently `NotReady` before CNI
+- [ ] Install Flannel CNI
+```bash
+kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+```
+- [ ] Confirm Master-1 flips to `Ready`
+- [ ] Run upload-certs phase
+- [ ] Save `worker-join.sh` and `master-join.sh`
+
+### VM Provisioning
+- [ ] Create VM 136 (Master-2) on controller-1
+- [ ] Create VM 137 (Master-3) on controller-2
+- [ ] Create VM 139 (Worker-2) on controller-2
+- [ ] Create VM 140 (Worker-3) on controller-2
+
+### Cluster Completion
+- [ ] Sysprep Master-2 and Master-3
+- [ ] Join Master-2 and Master-3 as control plane nodes
+- [ ] Sysprep Worker-1, Worker-2, Worker-3
+- [ ] Join all workers
+- [ ] Verify all 6 nodes are `Ready`
+
+### After Cluster Is Healthy
+- [ ] Install HAProxy + Keepalived for VIP `172.20.10.148`
+- [ ] Install cert-manager
+- [ ] Install Rancher via Helm
+- [ ] Integrate Quay registry
+- [ ] Integrate Keycloak auth
+
+---
+
+## 🔒 Infra Rules — Never Violate
+
+```text
+Network       : vmbr0 + VLAN tag 10
+Storage       : local-zfs only
+Resource Pool : PRODUCT-
+VM Prefix     : AIML-{VMName}
+Max Disk      : 40 GiB
+Swap          : MUST be OFF
+Containerd    : SystemdCgroup = true
+machine-id    : MUST be unique on cloned VMs
+SSH host keys : MUST be regenerated on cloned VMs
+```
+
+---
+
+## 📊 Progress Summary
+
+| Category | Target | Done | Remaining |
+|----------|--------|------|-----------|
+| VMs with OS installed | 6 | 2 | 4 |
+| Nodes sysprep'd | 6 | 1 | 5 |
+| K8s cluster initialized | 1 | 1 | 0 |
+| CNI installed | 1 | 0 | 1 |
+| Nodes joined | 5 | 0 | 5 |
+| Rancher installed | 1 | 0 | 1 |
+
+---
+
+## 📁 Reference Scripts
+
+| Script | Purpose | Run Where |
+|--------|---------|-----------|
+| `00-proxmox-create-vms.sh` | Create all VMs | Proxmox shell |
+| `01-vm-sysprep.sh` | Node prep | Inside each VM |
+| `02-init-master.sh` | kubeadm init + CNI + join scripts | Master-1 |
+| `03-join-master.sh` | Master join reference | Master-2/3 |
+| `04-join-worker.sh` | Worker join reference | Workers |
+| `05-haproxy-keepalived.sh` | HA VIP setup | HAProxy VM |
+| `06-proxmox-clone-from-master.sh` | Clone masters | Proxmox shell |
+| `07-post-clone-fixup.sh` | Reset identity after clone | Cloned VM |
+
+---
+
+*Last updated: 07 May 2026 22:03 IST*  
+*Next milestone: all 6 nodes Ready + Rancher UI accessible*
