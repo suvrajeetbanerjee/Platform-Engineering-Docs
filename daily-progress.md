@@ -513,4 +513,34 @@ SSH host keys : MUST be regenerated on cloned VMs
 
 ---
 
-Revision Required ...
+<!-- Revision Required ... -->
+
+## [2026-05-08] - Phase 4: High Availability & Observability Implementation
+
+### 🚀 Objectives Achieved
+- **HA Cluster Provisioning:** Successfully expanded the RKE2 bare-metal cluster to a production-grade High Availability (HA) architecture.
+- **Observability Bootstrapping:** Deployed the Rancher Monitoring suite (Prometheus, Grafana, Alertmanager) with persistent storage.
+- **Data Retention Hardening:** Secured monitoring data against accidental namespace or helm chart deletion by enforcing strict PV retention policies.
+
+### 🏗️ Infrastructure State
+- **Total Nodes:** 6 (Active & Ready)
+  - 3x Control Plane / etcd nodes (`product-cmp-prod-cp-1`, `cp-2`, `cp-3`)
+  - 3x Worker nodes (`product-cmp-prod-wrk-1`, `wrk-2`, `wrk-3`)
+- **Storage:** `longhorn` CSI provisioner deployed and verified as the active storage class.
+
+### 👁️ Observability Stack (`cattle-monitoring-system`)
+- **Prometheus:** Active (`3/3` ready). PVC Bound (`10Gi` via Longhorn).
+- **Grafana:** Active (`3/3` ready). PVC Bound (`5Gi` via Longhorn).
+- **Node Exporters:** DaemonSet deployed successfully across all 6 nodes for hardware-level metric scraping.
+- **Access:** Verified UI access via `kubectl port-forward` to the Grafana service on port `3000:80`.
+
+### 🛡️ Security & Hardening Applied
+- **OS Hardening:** Swap disabled and SSH root login blocked across all 6 nodes via automated deployment script.
+- **PV Reclaim Policy Patch:** By default, dynamic PVs provisioned via Helm are set to `Delete`. Successfully patched the underlying Persistent Volumes for Prometheus (`pvc-7ada84f7...`) and Grafana (`pvc-92a9fe52...`) to `Retain`.
+  - *Impact:* If the monitoring helm chart is uninstalled or crashes, the Longhorn block storage volumes will survive, preventing catastrophic historical metric data loss.
+
+### 🚧 Next Steps
+- Deploy Loki & Promtail (Logging Stack) to the isolated `logging` namespace.
+- Configure an Ingress Route (Traefik) to expose Grafana securely, removing the dependency on local port-forwarding.
+
+
