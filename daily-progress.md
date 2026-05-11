@@ -543,4 +543,62 @@ SSH host keys : MUST be regenerated on cloned VMs
 - Deploy Loki & Promtail (Logging Stack) to the isolated `logging` namespace.
 - Configure an Ingress Route (Traefik) to expose Grafana securely, removing the dependency on local port-forwarding.
 
+***
 
+This README update reflects the technical grind of Agenda Item 1 and the architectural setup of Agenda Items 2 & 3. It captures the transition from a broken Loki installation to a fully functional observability pipeline and a high-availability network entry point.
+
+---
+
+## Daily Progress Update: May 11, 2026
+
+### Log Aggregation & Observability (Agenda Item 1)
+
+* **Loki Stack Deployment:** Successfully deployed Grafana Loki in `SingleBinary` mode using the official Helm chart. Resolved a critical installation error where conflicting deployment targets were active simultaneously.
+
+
+* **Storage Remediation:** Identified and resolved a Longhorn "insufficient storage" failure. Discovered that 10Gi volumes were being blocked due to root disk pressure (51% used) on worker nodes. Successfully implemented a tactical bypass by resizing the volume to 2Gi to fit current disk headroom.
+
+
+* **Gateway Stabilization:** Fixed `loki-gateway` CrashLoopBackOff by correcting the Nginx DNS resolver. Transitioned from the default `kube-dns` to the RKE2-specific `rke2-coredns-rke2-coredns.kube-system.svc.cluster.local` address.
+
+
+* **Agent Integration:** Deployed **Promtail** as a DaemonSet across all 6 nodes to scrape container logs from `/var/log/containers/`.
+
+
+* **End-to-End Validation:** Verified the pipeline by deploying a demo Nginx application and a traffic generator. Confirmed live log streaming in Grafana using LogQL: `{namespace="test-apps", app="demo-nginx"}`.
+
+
+
+### Network Infrastructure & High Availability (Agenda Items 2 & 3)
+
+* **HAProxy & Keepalived VIP:** Initiated the setup of a dual-node Load Balancer stack to act as the primary entry point for the cluster.
+
+
+* **VIP Configuration:** Configured Keepalived with VRRP to manage a floating Virtual IP (VIP: `172.20.4.100`) for Master-Backup failover.
+
+
+* **Traffic Routing Logic:**
+* **Port 6443:** Layer 4 TCP balancing across 3 RKE2 Control Plane nodes.
+
+
+* **Ports 80/443:** Routing external HTTP/S traffic to the internal Traefik Ingress Controller running on Worker nodes.
+
+
+
+
+* **CSI Driver Verification:** Confirmed `driver.longhorn.io` is correctly registered and serving as the primary storage backend.
+
+
+
+### Technical Documentation & Sourcing
+
+* Referenced official documentation from **Grafana (Loki v7.x)**, **Longhorn CSI**, and **RKE2** to ensure implementation follows industry standards for production environments.
+
+
+---
+
+**Next Objectives:**
+
+1. Verify HAProxy failover by simulating node termination.
+2. Expand node root disks or add dedicated data disks for Longhorn to support larger logging volumes.
+3. Set up ResourceQuotas for the `logging` namespace to prevent memory exhaustion by memcached.
