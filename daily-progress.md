@@ -602,3 +602,27 @@ This README update reflects the technical grind of Agenda Item 1 and the archite
 1. Verify HAProxy failover by simulating node termination.
 2. Expand node root disks or add dedicated data disks for Longhorn to support larger logging volumes.
 3. Set up ResourceQuotas for the `logging` namespace to prevent memory exhaustion by memcached.
+
+***
+***
+
+
+### Date: 2026-05-12
+**Focus:** Observability Validation & Massive Storage Architecture Pivot
+
+#### 🏆 Milestones Achieved
+* **Bypassed Corporate DNS Lockdown:** Successfully routed traffic to the HAProxy VIP using Magic DNS (`sslip.io`), allowing Traefik Ingress to route to Grafana and Prometheus without modifying the locked-down Windows `hosts` file.
+* **Observability Smoke Tests:** Verified the monitoring stack network layer. Confirmed `node-exporter` telemetry is actively populating the pre-built Kubernetes/Compute dashboards in Grafana.
+* **Architectural Storage Pivot:** Recognized redundant overhead and abandoned Longhorn (Software-Defined Storage) in favor of the hypervisor's native physical Ceph/ZFS cluster.
+* **The Great Purge:** Completely eradicated Longhorn from the cluster. Manually stripped finalizers from stuck `Terminating` PVCs/PVs and deleted orphaned mutating/validating webhooks to unlock the cluster's API.
+* **Proxmox CSI Implementation:** * Built and deployed the `proxmox-csi-plugin` via Helm CLI.
+  * Corrected API authentication boot-loops by explicitly mapping the `config.yaml` secret to the Proxmox API token.
+  * Installed missing host-level dependencies (`open-iscsi`, `sg3-utils`, `ceph-common`) directly on the Ubuntu worker VMs, enabling the OS to physically mount the hypervisor's block devices.
+* **Production StorageClass Configuration:** Deployed a new CSI-backed StorageClass (`proxmox-local-zfs`). Crucially, enforced the `Retain` Reclaim Policy to ensure Prometheus, Grafana, and Loki databases survive accidental pod or namespace deletions.
+* **Final Binding:** Successfully provisioned and bound persistent volumes for the entire observability stack via the Rancher UI using the new hypervisor-backed storage.
+
+#### ⚠️ Lessons Learned (The Hard Way)
+* **Strict Secret Mapping:** A container hardcoded to look for a specific file (`config.yaml`) will continuously crash loop if the Kubernetes secret injects it under a different key name, even if the payload data is 100% correct.
+* **Kubernetes Finalizers:** Deleting a storage controller (like Longhorn) before deleting its provisioned PVCs will leave those resources trapped in a `Terminating` state forever. Finalizers must be manually patched to `null` to force the purge.
+* **Reclaim Policies:** Defaulting a StorageClass to `Delete` is a catastrophic risk for databases. Production persistent data (like logs and metrics) must always utilize the `Retain` policy.
+* **Host vs. Container Dependencies:** A CSI node agent container cannot magically mount a storage protocol (like Ceph or iSCSI) if the underlying hypervisor OS (Ubuntu worker node) lacks the necessary client binaries.
