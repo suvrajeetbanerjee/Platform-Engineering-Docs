@@ -626,3 +626,431 @@ This README update reflects the technical grind of Agenda Item 1 and the archite
 * **Kubernetes Finalizers:** Deleting a storage controller (like Longhorn) before deleting its provisioned PVCs will leave those resources trapped in a `Terminating` state forever. Finalizers must be manually patched to `null` to force the purge.
 * **Reclaim Policies:** Defaulting a StorageClass to `Delete` is a catastrophic risk for databases. Production persistent data (like logs and metrics) must always utilize the `Retain` policy.
 * **Host vs. Container Dependencies:** A CSI node agent container cannot magically mount a storage protocol (like Ceph or iSCSI) if the underlying hypervisor OS (Ubuntu worker node) lacks the necessary client binaries.
+
+***
+***
+
+
+
+# 🚀 Daily Progress - Proxmox CSI Driver Debugging & Rancher Monitoring Persistence
+
+## 📅 Date
+13 May 2026
+
+---
+
+# 🎯 Objective
+
+Configured and debugged dynamic persistent storage provisioning for a Rancher-managed RKE2 Kubernetes cluster using the Proxmox CSI Plugin.
+
+Goal was to enable persistent volumes for:
+- Prometheus
+- Grafana
+- Loki
+- Rancher Monitoring Stack
+
+using Proxmox-backed storage inside Kubernetes.
+
+---
+
+# 🏗️ Infrastructure Context
+
+## Kubernetes Platform
+- Rancher Managed RKE2 Cluster
+- HA Control Plane
+- Dedicated Worker Nodes
+
+## Storage Backend
+- Proxmox VE
+- ZFS-backed local storage
+- Storage Pool:
+  
+```text
+local-zfs
+
+
+## CSI Driver
+
+* Proxmox CSI Plugin
+* Provisioner:
+
+```text
+csi.proxmox.sinextra.dev
+```
+
+---
+
+# 🔥 Initial Problem Observed
+
+Persistent Volume Claims remained stuck in:
+
+```text
+Pending
+```
+
+Affected workloads:
+
+* Prometheus
+* Grafana
+* Test PVCs
+* Monitoring stack components
+
+PVCs were unable to dynamically provision volumes.
+
+---
+
+# 🔍 Investigation & Root Cause Analysis
+
+## 1️⃣ Verified PVC Status
+
+Used:
+
+```bash
+kubectl get pvc -A
+```
+
+Observed all PVCs in pending state.
+
+---
+
+## 2️⃣ Inspected PVC Events
+
+Used:
+
+```bash
+kubectl describe pvc <pvc-name> -n <namespace>
+```
+
+Initial error discovered:
+
+```text
+dial tcp 172.20.10.10:8006: connect: no route to host
+```
+
+---
+
+# 🌐 Networking Issue Identified
+
+## Problem
+
+CSI plugin was attempting to communicate with incorrect Proxmox API endpoint:
+
+```text
+172.20.10.10
+```
+
+while actual reachable Proxmox endpoint was:
+
+```text
+172.20.10.101
+```
+
+---
+
+## Validation Performed
+
+Successful connectivity test:
+
+```bash
+curl -k https://172.20.10.101:8006/api2/json
+```
+
+Confirmed:
+
+* Proxmox API reachable
+* Kubernetes node networking functional
+
+---
+
+# ⚙️ CSI Secret Reconfiguration
+
+## Extracted Existing CSI Configuration
+
+```bash
+kubectl get secret proxmox-csi-plugin -n csi-proxmox -o jsonpath='{.data.config\.yaml}' | base64 -d
+```
+
+Observed incorrect API URL.
+
+---
+
+## Updated CSI Config
+
+Modified:
+
+```yaml
+url: https://172.20.10.101:8006/api2/json
+```
+
+---
+
+## Recreated Kubernetes Secret
+
+```bash
+kubectl delete secret proxmox-csi-plugin -n csi-proxmox
+```
+
+```bash
+kubectl create secret generic proxmox-csi-plugin \
+  --from-file=config.yaml \
+  -n csi-proxmox
+```
+
+---
+
+# 🔄 CSI Driver Restart
+
+Restarted:
+
+* CSI Controller Deployment
+* CSI Node DaemonSet
+
+Commands used:
+
+```bash
+kubectl rollout restart deployment proxmox-csi-plugin-controller -n csi-proxmox
+```
+
+```bash
+kubectl rollout restart daemonset proxmox-csi-plugin-node -n csi-proxmox
+```
+
+---
+
+# 📊 Post-Fix Behavior Change
+
+## Previous Error
+
+```text
+connect: no route to host
+```
+
+## New Error
+
+```text
+failed to get proxmox storage config: not found
+```
+
+This confirmed:
+
+* networking issue resolved
+* CSI successfully reaching Proxmox API
+
+---
+
+# 🧠 Deep-Dive Into CSI Provisioning Flow
+
+Learned the internal provisioning sequence of CSI-based storage orchestration:
+
+```text
+Kubernetes PVC
+    ↓
+CSI Controller
+    ↓
+Proxmox API
+    ↓
+Cluster Storage Discovery
+    ↓
+Topology Validation
+    ↓
+Volume Creation
+    ↓
+Disk Attachment
+```
+
+---
+
+# 🏷️ StorageClass Validation
+
+Verified Kubernetes StorageClass configuration:
+
+```yaml
+parameters:
+  storage: local-zfs
+  fstype: ext4
+```
+
+Validated against actual Proxmox storage backend.
+
+---
+
+# 🌍 Kubernetes Topology Validation
+
+Verified topology labels on worker nodes:
+
+```text
+topology.kubernetes.io/region=cmp-prod-v1
+topology.kubernetes.io/zone=controller-1
+```
+
+Corrected malformed topology label on one worker node.
+
+---
+
+# 🔥 Major Discovery — Proxmox API Permission Issue
+
+Performed direct API tests against Proxmox.
+
+## Command Used
+
+```bash
+curl -k \
+-H 'Authorization: PVEAPIToken=sameer@pve!proxmox-csi=<TOKEN>' \
+'https://172.20.10.101:8006/api2/json/cluster/resources?type=storage'
+```
+
+---
+
+## Critical Result
+
+```json
+{"data":[]}
+```
+
+This revealed:
+
+* authentication successful
+* networking successful
+* API accessible
+* BUT API token had zero visibility into storage resources
+
+---
+
+# 🚨 Root Cause Identified
+
+Primary blocker isolated to:
+
+## Proxmox RBAC / API Token Permissions
+
+CSI driver could not discover:
+
+```text
+local-zfs
+```
+
+because the API token lacked sufficient permissions for:
+
+* cluster storage visibility
+* datastore auditing
+* storage resource enumeration
+
+---
+
+# 🧠 Key Concepts Learned
+
+## Kubernetes Storage Concepts
+
+* PVC Lifecycle
+* CSI Architecture
+* Dynamic Provisioning
+* StorageClasses
+* Volume Binding Modes
+* Persistent Volume orchestration
+
+---
+
+## Infrastructure & Networking Concepts
+
+* Proxmox API communication
+* CSI Controller workflows
+* Cluster topology awareness
+* Storage backend mapping
+* API-driven infrastructure orchestration
+
+---
+
+## Debugging Concepts
+
+* Event-driven troubleshooting
+* CSI log analysis
+* Storage topology tracing
+* Kubernetes-Proxmox integration debugging
+* Infrastructure RBAC validation
+
+---
+
+# 🛠️ Core Commands Used
+
+## PVC Debugging
+
+```bash
+kubectl get pvc -A
+```
+
+```bash
+kubectl describe pvc <pvc-name> -n <namespace>
+```
+
+---
+
+## CSI Debugging
+
+```bash
+kubectl logs -n csi-proxmox deploy/proxmox-csi-plugin-controller -f
+```
+
+---
+
+## StorageClass Inspection
+
+```bash
+kubectl get sc proxmox-local-zfs -o yaml
+```
+
+---
+
+## Node Topology Verification
+
+```bash
+kubectl get nodes --show-labels
+```
+
+---
+
+## Proxmox API Validation
+
+```bash
+curl -k \
+-H 'Authorization: PVEAPIToken=<TOKEN>' \
+'https://172.20.10.101:8006/api2/json/cluster/resources?type=storage'
+```
+
+---
+
+# 📌 Current Status
+
+## Completed
+
+* CSI deployment functional
+* Kubernetes connectivity functional
+* Proxmox API connectivity functional
+* StorageClass configured
+* Topology labels configured
+* Root cause isolated
+
+## Pending
+
+* Proxmox API token RBAC correction
+* Successful dynamic volume provisioning
+* Monitoring stack PVC binding
+* Persistent monitoring workloads
+
+---
+
+# 🚀 Key Takeaway
+
+This debugging session demonstrated that modern platform engineering failures are rarely caused by a single component.
+
+A functioning CSI architecture depends on:
+
+* networking
+* storage topology
+* RBAC
+* API visibility
+* orchestration consistency
+* infrastructure identity mapping
+
+A single misconfigured API token permission was enough to break the entire Kubernetes storage provisioning workflow even though all other components appeared healthy.
+
+```
+```
