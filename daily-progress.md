@@ -1054,3 +1054,493 @@ A single misconfigured API token permission was enough to break the entire Kuber
 
 ```
 ```
+
+
+***
+***
+
+
+# 🚀 Daily Progress Report — Rancher Monitoring + Proxmox CSI Storage Debugging
+
+> Deep dive into Kubernetes CSI provisioning, Proxmox API integration, StatefulSet persistence, PVC lifecycle debugging, and monitoring stack recovery.
+
+Reference Notes: :contentReference[oaicite:0]{index=0}
+
+---
+
+# 📅 Date
+
+14-05-2026
+
+---
+
+# 🎯 Objective
+
+Enable persistent storage for:
+
+- Prometheus
+- Grafana
+- Loki
+- Rancher Monitoring Stack
+
+inside a Rancher-managed RKE2 Kubernetes cluster using the Proxmox CSI Plugin.
+
+---
+
+# 🏗️ Infrastructure Overview
+
+## Kubernetes Platform
+- Rancher Managed RKE2 Cluster
+- HA Control Plane
+- Dedicated Worker Nodes
+
+## Storage Backend
+- Proxmox VE
+- ZFS/LVM-backed storage
+- CSI Driver:
+
+```text
+csi.proxmox.sinextra.dev
+```
+
+## StorageClasses Used
+
+### Initial StorageClass
+
+```text
+proxmox-local-zfs
+```
+
+### Final Working StorageClass
+
+```text
+proxmox-primera
+```
+
+---
+
+# 🔥 Initial Problem
+
+All monitoring workloads failed to initialize because Persistent Volume Claims remained stuck in:
+
+```text
+Pending
+```
+
+Affected workloads:
+- Prometheus
+- Grafana
+- Loki
+- Rancher Monitoring
+
+---
+
+# 🔍 PVC Investigation
+
+## Commands Used
+
+```bash
+kubectl get pvc -A
+```
+
+```bash
+kubectl describe pvc <pvc-name> -n <namespace>
+```
+
+---
+
+# 🚨 Root Cause #1 — Incorrect Proxmox API Endpoint
+
+CSI logs revealed:
+
+```text
+dial tcp 172.20.10.10:8006: connect: no route to host
+```
+
+---
+
+# 🌐 Network Validation
+
+Confirmed actual reachable Proxmox API endpoint:
+
+```bash
+curl -k https://172.20.10.101:8006/api2/json
+```
+
+---
+
+# ⚙️ CSI Secret Reconfiguration
+
+## Extracted Existing Config
+
+```bash
+kubectl get secret proxmox-csi-plugin -n csi-proxmox \
+-o jsonpath='{.data.config\.yaml}' | base64 -d
+```
+
+---
+
+## Corrected API Endpoint
+
+Updated:
+
+```yaml
+url: https://172.20.10.101:8006/api2/json
+```
+
+---
+
+## Recreated Kubernetes Secret
+
+```bash
+kubectl delete secret proxmox-csi-plugin -n csi-proxmox
+```
+
+```bash
+kubectl create secret generic proxmox-csi-plugin \
+  --from-file=config.yaml \
+  -n csi-proxmox
+```
+
+---
+
+# 🔄 CSI Driver Restart
+
+Restarted:
+- CSI Controller
+- CSI Node DaemonSet
+
+```bash
+kubectl rollout restart deployment proxmox-csi-plugin-controller -n csi-proxmox
+```
+
+```bash
+kubectl rollout restart daemonset proxmox-csi-plugin-node -n csi-proxmox
+```
+
+---
+
+# 📊 Post-Network Fix Result
+
+Old Error:
+
+```text
+no route to host
+```
+
+New Error:
+
+```text
+failed to get proxmox storage config: not found
+```
+
+This confirmed:
+- Kubernetes networking fixed
+- CSI reaching Proxmox successfully
+- Next blocker moved to storage/resource visibility
+
+---
+
+# 🔥 Root Cause #2 — Proxmox API Permission Failure
+
+Direct API testing showed:
+
+```bash
+curl -k \
+-H 'Authorization: PVEAPIToken=sameer@pve!proxmox-csi=<TOKEN>' \
+'https://172.20.10.101:8006/api2/json/cluster/resources?type=storage'
+```
+
+Response:
+
+```json
+{"data":[]}
+```
+
+Meaning:
+- API authentication succeeded
+- BUT token had zero visibility into storage resources
+
+---
+
+# 🛠️ Proxmox RBAC Troubleshooting
+
+Identified missing permissions:
+- Datastore.Audit
+- Datastore.AllocateSpace
+- Sys.Audit
+- Storage visibility propagation
+
+Required fixes:
+- Administrator role assignment
+- Propagate checkbox enabled
+
+---
+
+# 🧠 Kubernetes Storage Concepts Explored
+
+## CSI Workflow
+
+```text
+PVC
+ ↓
+CSI Controller
+ ↓
+Proxmox API
+ ↓
+Storage Discovery
+ ↓
+Volume Creation
+ ↓
+Volume Attachment
+ ↓
+Mount into Pod
+```
+
+---
+
+# 🔥 StorageClass Evolution
+
+## Original StorageClass
+
+```text
+proxmox-local-zfs
+```
+
+Eventually replaced with:
+
+```text
+proxmox-primera
+```
+
+---
+
+# 📦 Final Working StorageClass
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: proxmox-primera
+provisioner: csi.proxmox.sinextra.dev
+parameters:
+  storage: primera-lvm
+  cache: none
+  ssd: "true"
+  csi.storage.k8s.io/fstype: ext4
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+allowVolumeExpansion: true
+```
+
+---
+
+# 🧪 PVC Validation Testing
+
+Created test PVC:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-proxmox-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: proxmox-primera
+  resources:
+    requests:
+      storage: 2Gi
+```
+
+---
+
+# 🚨 Root Cause #3 — StorageClass Mismatch
+
+Discovered monitoring workloads were still requesting:
+
+```text
+proxmox-local-zfs
+```
+
+while cluster only contained:
+
+```text
+proxmox-primera
+```
+
+This caused:
+
+```text
+storageclass.storage.k8s.io "proxmox-local-zfs" not found
+```
+
+---
+
+# 🔄 Monitoring Stack Reconfiguration
+
+Updated Rancher Monitoring Helm values:
+
+```yaml
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: proxmox-primera
+
+grafana:
+  persistence:
+    enabled: true
+    storageClassName: proxmox-primera
+```
+
+---
+
+# 🚀 Helm Upgrade Performed
+
+```bash
+helm upgrade rancher-monitoring rancher-charts/rancher-monitoring \
+  -n cattle-monitoring-system \
+  --reuse-values \
+  --set grafana.persistence.enabled=true \
+  --set grafana.persistence.storageClassName=proxmox-primera \
+  --set grafana.persistence.size=20Gi
+```
+
+---
+
+# ✅ Successful PVC Provisioning
+
+Final successful state:
+
+```text
+prometheus-rancher-monitoring-prometheus-db -> Bound
+rancher-monitoring-grafana -> Bound
+```
+
+This confirmed:
+- CSI provisioning operational
+- Proxmox disk creation operational
+- Kubernetes storage orchestration operational
+
+---
+
+# 🔥 StatefulSet Recovery Work
+
+Force restarted stuck Prometheus pod:
+
+```bash
+kubectl delete pod prometheus-rancher-monitoring-prometheus-0 \
+-n cattle-monitoring-system \
+--force --grace-period=0
+```
+
+---
+
+# 🚨 Final Blocking Issue Identified
+
+Prometheus pod remained stuck in:
+
+```text
+Init:0/1
+```
+
+---
+
+# 🔍 Deep Pod Investigation
+
+Used:
+
+```bash
+kubectl describe pod prometheus-rancher-monitoring-prometheus-0 \
+-n cattle-monitoring-system
+```
+
+Critical discovery:
+
+```text
+FailedAttachVolume:
+rpc error: code = Internal desc = instance not found
+```
+
+---
+
+# 🧠 Key Technical Learnings
+
+## Kubernetes Concepts
+- PVC lifecycle
+- StatefulSets
+- Init containers
+- Volume attachments
+- CSI architecture
+- VolumeBindingMode
+- Reclaim policies
+- Pod scheduling
+
+---
+
+## Proxmox Concepts
+- API token RBAC
+- Storage visibility
+- CSI integration
+- Virtual disk orchestration
+- VM disk attachment workflows
+
+---
+
+## Troubleshooting Concepts
+- Event-driven debugging
+- CSI log tracing
+- Stateful workload recovery
+- Persistent storage migration
+- Zombie PVC cleanup
+- Finalizer removal
+- StorageClass migration strategy
+
+---
+
+# 📌 Current Cluster Status
+
+| Component | Status |
+|---|---|
+| Proxmox API Connectivity | ✅ Working |
+| CSI Controller | ✅ Working |
+| CSI Node Plugin | ✅ Working |
+| Dynamic PVC Provisioning | ✅ Working |
+| Grafana PVC | ✅ Bound |
+| Prometheus PVC | ✅ Bound |
+| Grafana Pod | ⚠️ Pending Verification |
+| Prometheus Pod | ❌ FailedAttachVolume |
+| Loki Persistence | ⚠️ Pending |
+| Volume Attachment Layer | ❌ Current Blocker |
+
+---
+
+# 🔥 Major Takeaway
+
+This debugging session demonstrated how Kubernetes persistent storage failures can originate from multiple infrastructure layers simultaneously:
+
+- Networking
+- API identity
+- RBAC permissions
+- CSI orchestration
+- Storage topology
+- Stateful workload lifecycle
+- Volume attachment mechanics
+
+A cluster may successfully provision Persistent Volumes while still failing at the final attachment stage between Kubernetes worker nodes and Proxmox virtual machine infrastructure.
+
+---
+
+# 🚀 Skills Strengthened
+
+- Kubernetes Storage Internals
+- Proxmox CSI Architecture
+- Rancher Monitoring Stack Management
+- StatefulSet Recovery
+- CSI Driver Debugging
+- PVC/PV Lifecycle Analysis
+- Proxmox API Debugging
+- Infrastructure Root Cause Analysis
+- Production Monitoring Persistence Design
