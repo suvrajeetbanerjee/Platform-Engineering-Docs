@@ -1544,3 +1544,65 @@ A cluster may successfully provision Persistent Volumes while still failing at t
 - Proxmox API Debugging
 - Infrastructure Root Cause Analysis
 - Production Monitoring Persistence Design
+
+***
+***
+
+# Platform Engineering Daily Progress - May 15, 2026
+
+## Objective: Standardizing Observability & Persistent Storage Handshake
+
+Today was a high-stakes troubleshooting day that resulted in a "bulletproof" observability foundation for the `cmp-prod-v1` cluster. The primary focus was resolving persistent storage deadlocks and wiring the Monitoring (Prometheus/Grafana) and Logging (Loki) stacks correctly after a complete infrastructure "nuke and rebuild."
+
+---
+
+## 🛠 Tasks Executed
+
+### 1. Infrastructure Nuke & Namespace Purification
+* **The Problem:** Stale Helm releases and "zombie" pods were holding onto orphaned Proxmox disk sessions, causing session errors in the Rancher UI.
+* **Action:**
+    * Uninstalled `rancher-monitoring` and `loki-stack` via Helm.
+    * Purged all Persistent Volume Claims (PVCs) in `cattle-monitoring-system` and `logging` namespaces.
+    * Verified the **Proxmox CSI Driver** successfully deleted physical ZFS datasets on the `primera-lvm` backend.
+    * Deleted and recreated namespaces to ensure a clean metadata slate.
+
+### 2. Standardized Storage Handshake (Proxmox + ZFS)
+* **The Achievement:** Achieved a **2-second Bound time** for production volumes.
+* **Provisioned Resources:**
+    * **Prometheus:** 50Gi Persistent Volume via `proxmox-primera` StorageClass.
+    * **Grafana:** 20Gi Persistent Volume via `proxmox-primera` StorageClass.
+    * **Loki:** 50Gi Persistent Volume via `proxmox-primera` StorageClass.
+* **Key Learning:** Validated that lower-case node naming convention in Proxmox is mandatory for CSI volume attachment reliability.
+
+### 3. Monitoring Stack Reconstruction (Rancher UI Flow)
+* **Action:** Reinstalled Rancher Monitoring strictly through the Rancher Apps UI to restore the **Rancher Auth Proxy** session.
+* **Result:** Successfully restored the "Monitoring" shortcut link in Rancher Dashboard, resolving the `failed to find Session for client stv-cluster-api` error.
+
+### 4. Centralized Logging (Loki-Stack) Integration
+* **Agent Deployment:** Deployed `promtail` as a DaemonSet across all worker nodes to tail container logs.
+* **Data Source Wiring:** Manually wired Loki to Grafana using internal K8s DNS: `http://loki.logging.svc.cluster.local:3100`.
+* **Chaos Testing:** Deployed a `log-generator` application spewing randomized INFO/WARN/ERROR logs to verify real-time ingestion.
+
+---
+
+## 📈 Visual Verification
+* **Grafana URL:** Managed through internal ClusterIP (Safe) and accessible via Rancher Proxy.
+* **Dashboards:** Successfully imported **Node Exporter Full (1860)** and **Loki Kubernetes Logs (15141)**.
+* **Status:** All pods in `cattle-monitoring-system` and `logging` namespaces are **3/3 Running**.
+
+---
+
+## ⚠️ Ruthless Audit & Cleanups
+* **Zombie Pods:** Terminated `tmp-shell` (interactive debug container) which had been idling for 159 minutes.
+* **Network Optimization:** Nuked redundant Ingress objects to prevent URL redirection loops.
+* **Security:** Reverted manual `NodePort` exposures back to `ClusterIP` to ensure traffic flows through the authenticated Traefik/Rancher gateway.
+
+---
+
+## 🚀 Next Steps (Phase 4: Performance & Performance)
+1.  **etcd Performance Tuning:** Migrate the etcd data directory to dedicated 20GB high-speed VirtIO disks on `cp-1`, `cp-2`, and `cp-3`.
+2.  **Loki Retention Policy:** Configure the Compactor to prevent ZFS pool exhaustion.
+3.  **Alerting Rules:** Define Alertmanager configs for critical pod failures.
+
+---
+*Last Updated: 2026-05-15 | Platform Engineer: Suvrajeet Banerjee*
