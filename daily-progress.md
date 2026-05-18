@@ -1606,3 +1606,13 @@ Today was a high-stakes troubleshooting day that resulted in a "bulletproof" obs
 
 ---
 *Last Updated: 2026-05-15 | Platform Engineer: Suvrajeet Banerjee*
+
+***
+***
+
+## 18-MAY-26
+
+K8s cluster tasks
+- check pvs created in which node
+- check the volume/size of data generated from the test apps deployed and deleted (3x)
+- size of pvs filled
