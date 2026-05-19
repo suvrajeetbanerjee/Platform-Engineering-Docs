@@ -1616,3 +1616,11 @@ K8s cluster tasks
 - check pvs created in which node
 - check the volume/size of data generated from the test apps deployed and deleted (3x)
 - size of pvs filled
+
+***
+***
+
+## 19-May-26
+- K8s cluster dissection
+- k8s cluster inside out
+  
