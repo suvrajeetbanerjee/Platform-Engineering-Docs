@@ -1624,3 +1624,9 @@ K8s cluster tasks
 - K8s cluster dissection
 - k8s cluster inside out
   
+***
+***
+
+## 20-May-26
+- pv checked for loki
+- size & location confirmed
