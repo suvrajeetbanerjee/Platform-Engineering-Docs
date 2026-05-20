@@ -1630,3 +1630,5 @@ K8s cluster tasks
 ## 20-May-26
 - pv checked for loki
 - size & location confirmed
+- working on bugs (checks) in portal
+- crm system
