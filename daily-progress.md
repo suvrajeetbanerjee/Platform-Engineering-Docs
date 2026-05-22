@@ -1632,3 +1632,12 @@ K8s cluster tasks
 - size & location confirmed
 - working on bugs (checks) in portal
 - crm system
+
+***
+***
+
+## 22-May-26
+- codebase study
+- setting up frontend & backend
+- connection establishment b/w containers for testing
+- database in containers for testing
