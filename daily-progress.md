@@ -1641,3 +1641,15 @@ K8s cluster tasks
 - setting up frontend & backend
 - connection establishment b/w containers for testing
 - database in containers for testing
+
+***
+***
+
+## 25-May-26
+- Rancher k8s cluster showing main k8s cluster down
+        - probably due to one of the nodes auto restarted or someone shut it down on purpose
+        - issue = stopped rke2 ; restarted it - issue fiksed
+- steps to be taken so that this never occurs in future
+- automation plan : use signal/telegrram with a dashboard showing the status of each and every node and rancher admin as well so that in case of any downtime, necessary actions can be reviewed
+- further plan scope
+        - use local llm to fiks these small issues without the need for HITL.
