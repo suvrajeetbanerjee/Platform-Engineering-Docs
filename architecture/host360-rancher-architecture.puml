@@ -1,0 +1,118 @@
+@startuml
+title Host360 / Rancher / Proxmox Production Architecture
+left to right direction
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam roundcorner 18
+skinparam packageStyle rectangle
+
+actor "Users / Browsers" as users
+actor "Developers" as dev
+
+cloud "Internet / Office LAN" as net
+
+node "Proxmox Host" as proxmox {
+  node "Rancher Admin VM\n172.20.4.20" as rancher_vm {
+    component "Rancher UI" as rancher
+    component "kubectl / admin shell" as kubectl
+  }
+
+  frame "GitLab Server VM\n172.20.4.60\nPrivate subnet" as gitlab_vm {
+    component "GitLab Repo" as gitlab_repo
+    component "CI Runner / Pipelines" as gitlab_ci
+  }
+
+  frame "Kubernetes Cluster: cmp-prod-v1" as cluster {
+    node "Control Plane 1\n172.20.4.21" as cp1
+    node "Control Plane 2\n172.20.4.22" as cp2
+    node "Control Plane 3\n172.20.4.23" as cp3
+
+    node "Worker 1\n172.20.4.24" as wk1
+    node "Worker 2\n172.20.4.25" as wk2
+    node "Worker 3\n172.20.4.26" as wk3
+
+    rectangle "Kubernetes System" as k8s_sys {
+      component "Calico\n(CNI / network policy)" as calico
+      component "CoreDNS" as coredns
+      component "metrics-server" as metrics
+      component "Traefik / Ingress" as traefik
+      component "Proxmox CSI Driver" as csi
+      component "Rancher Monitoring Stack" as monitoring
+      component "Prometheus" as prom
+      component "Grafana" as graf
+      component "Loki" as loki
+      component "Promtail" as promtail
+    }
+
+    rectangle "Application Namespace" as app_ns {
+      component "Frontend 1\nNext.js" as fe1
+      component "Frontend 2\nNext.js" as fe2
+      component "Backend\nNestJS / API" as be
+      component "Cron Job / Worker\ncron-go-main" as cron
+    }
+
+    database "MariaDB\nExternal to cluster" as mariadb
+    database "MongoDB\nExternal to cluster" as mongodb
+    database "Redis\nExternal to cluster" as redis
+  }
+}
+
+users --> net
+dev --> net
+net --> rancher
+net --> traefik : HTTPS / HTTP
+traefik --> fe1
+traefik --> fe2
+fe1 --> be : API calls
+fe2 --> be : API calls
+
+be --> mariadb : SQL
+be --> mongodb : documents / audit
+be --> redis : cache / sessions / rate-limit
+cron --> mariadb
+cron --> mongodb
+cron --> redis
+
+gitlab_repo --> gitlab_ci : push / merge
+gitlab_ci --> cluster : build, test,\npush image, deploy
+rancher --> cluster : manage / observe
+kubectl --> cluster : admin actions
+
+calico --> wk1
+calico --> wk2
+calico --> wk3
+coredns --> cluster
+metrics --> cluster
+csi --> cluster
+monitoring --> prom
+monitoring --> graf
+monitoring --> loki
+promtail --> loki
+prom --> cluster : scrape metrics
+graf --> prom : datasource
+graf --> loki : datasource
+
+cluster --> proxmox : runs on VMs
+note right of app_ns
+Frontend is public.
+Backend stays private.
+GitLab should automate deploys
+so kubectl is rarely needed manually.
+end note
+
+note bottom of monitoring
+Prometheus = metrics
+Grafana = dashboards
+Loki = logs
+Promtail = log shipping
+end note
+
+note bottom of csi
+Proxmox CSI backs PVCs/PVs.
+Observed PVCs:
+- Prometheus 50Gi
+- Grafana 20Gi
+- Loki 50Gi
+end note
+
+@enduml
