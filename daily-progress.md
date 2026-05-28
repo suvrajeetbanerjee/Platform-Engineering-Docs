@@ -1653,3 +1653,14 @@ K8s cluster tasks
 - automation plan : use signal/telegrram with a dashboard showing the status of each and every node and rancher admin as well so that in case of any downtime, necessary actions can be reviewed
 - further plan scope
         - use local llm to fiks these small issues without the need for HITL.
+
+***
+***
+
+## 27-May-26
+- deployed the application on the k8s cluster
+- 2 frontends + 2 backends (1 being the cronjob) + databases (mariadb galera custer + mongodb + redis) 
+- fiksed backend not connecting with frontend and database connection errors
+- resolved pods starting but not ready
+- 2fa authentication added using authenticator
+- assigned public ip to the frontend portal and gitlab server routed via HAproxy
