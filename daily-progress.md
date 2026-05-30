@@ -1664,3 +1664,30 @@ K8s cluster tasks
 - resolved pods starting but not ready
 - 2fa authentication added using authenticator
 - assigned public ip to the frontend portal and gitlab server routed via HAproxy
+
+***
+***
+
+## 29-May-26
+- *RKE2 Cluster Recovery*
+  - The RKE2 control plane (3-node etcd cluster) had gone into a no-quorum state due to simultaneous node crashes.
+  - Identified the root cause as zombie containerd-shim processes blocking etcd leader election.
+  - Cleared stale processes across all control plane nodes; cluster self-recovered without requiring a --cluster-reset.
+  - All 6 nodes (3 CP + 3 workers) are back to Running state as confirmed in Rancher.
+
+- *Public DNS Mapping*
+  - Configured DNS A records for console.host360.ai and product-gitlab.host360.ai pointing to public IP ***.***.***.***.
+  - Both domains are now resolving correctly via public DNS (verified via nslookup against 8.8.8.8).
+
+- *HAProxy Routing Validated*
+  - Reviewed and confirmed the existing HAProxy config on VIP 172.20.4.80.
+  - HTTP/HTTPS traffic for console.host360.ai correctly routes to Traefik NodePort (30080/30443) on worker nodes, and product-gitlab.host360.ai routes directly to the GitLab VM at 172.20.4.60.
+  - HAProxy and Keepalived both confirmed active.
+
+- *GitLab HTTPS Enabled*
+  - Configured Let's Encrypt TLS on the GitLab VM by updating external_url to https://product-gitlab.host360.ai in gitlab.rb and enabling the built-in Let's Encrypt integration.
+  - Ran gitlab-ctl reconfigure — GitLab is now accessible over HTTPS at product-gitlab.host360.ai with a valid certificate.
+
+- *Pending*
+  - Traefik IngressRoute for console.host360.ai — Traefik is running on the cluster (NodePort 30080/30443), app services are healthy in host360-prod namespace.
+  - IngressRoute creation and HTTPS via cert-manager for console.host360.ai is in progress as the next step.
