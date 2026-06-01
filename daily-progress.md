@@ -1691,3 +1691,21 @@ K8s cluster tasks
 - *Pending*
   - Traefik IngressRoute for console.host360.ai — Traefik is running on the cluster (NodePort 30080/30443), app services are healthy in host360-prod namespace.
   - IngressRoute creation and HTTPS via cert-manager for console.host360.ai is in progress as the next step.
+
+***
+***
+
+## 01-Jun-26
+
+- ingress - nodeport (earlier)
+- changed to metal-lb
+- https ingress reapplied (already installed earlier)
+- haproksy config (metal-lb ip added)
+- fiksedd wrong endpoint call
+- lets enncrypt also reapplied
+- updated servers-ip sheet with vms passwords
+- created user named soniya in rancher admin with admin privileges
+- updated gitlab repo with updated codebase
+
+
+
