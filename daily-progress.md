@@ -1708,4 +1708,11 @@ K8s cluster tasks
 - updated gitlab repo with updated codebase
 
 
+***
+***
 
+- moved from promeheus grafana loki to ELK stacck
+- configured
+  - Elastic Search
+  - Logstash
+  - Kibana 
