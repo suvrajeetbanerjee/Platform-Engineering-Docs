@@ -1711,8 +1711,261 @@ K8s cluster tasks
 ***
 ***
 
+## 04-Jun-26
 - moved from promeheus grafana loki to ELK stacck
 - configured
   - Elastic Search
   - Logstash
   - Kibana 
+
+
+***
+***
+
+## 05-Jun-26
+
+
+
+## ELK Stack Setup Progress
+
+## Current Status
+The ELK stack setup has reached a working baseline in production-style mode.
+
+- **Elasticsearch HA cluster** is up with 3 nodes and healthy shard allocation
+- **Kibana** is reachable and connected to the cluster
+- **Logstash** is receiving events on Beats input and forwarding to Elasticsearch
+- **Filebeat** is installed and forwarding Linux logs from the source VM
+- **Linux syslog and auth logs** are ingested successfully
+- **Grok parsing** is working and extracting structured fields
+- **Data streams** are working with `logs-linux-prod`
+- **Kibana Discover** is able to visualize the ingested logs
+
+---
+
+## End-to-End Flow Implemented
+
+
+Linux VM logs
+   ↓
+Filebeat
+   ↓
+Logstash (Beats input + Grok filter)
+   ↓
+Elasticsearch HA cluster
+   ↓
+Kibana Discover / Data Views
+
+
+---
+
+## Components Built
+
+### Elasticsearch Cluster
+
+* 3-node cluster:
+
+  * `elk-es-01` → `172.20.4.38`
+  * `elk-es-02` → `172.20.4.39`
+  * `elk-es-03` → `172.20.4.40`
+* Cluster health verified as **green**
+* Shards and replicas distributed across nodes
+* Master election and node visibility verified
+* Current master was validated from the cluster outputs
+
+### Logstash
+
+* Installed on `elk-logstash` → `172.20.4.41`
+* Beats input listening on **5044**
+* Elasticsearch output configured to use all 3 ES nodes
+* Data stream output enabled:
+
+  * `data_stream => true`
+  * `data_stream_type => "logs"`
+  * `data_stream_dataset => "linux"`
+  * `data_stream_namespace => "prod"`
+* Grok filter added for structured parsing of syslog-style logs
+
+### Filebeat
+
+* Installed on `elk-logstash`
+* Configured to collect:
+
+  * `/var/log/syslog`
+  * `/var/log/auth.log`
+* Filebeat output initially pointed to Logstash
+* Filebeat `system` module enabled
+* Module loader configured correctly
+* `system` module parsing active for:
+
+  * `syslog`
+  * `auth`
+
+### Kibana
+
+* Running on `elk-kibana` → `172.20.4.42`
+* Connected to the ES cluster
+* Data views created and validated
+* Discover confirmed visibility of:
+
+  * `PIPELINE_GROK_TEST_002`
+  * `AUTH_TEST_001`
+  * `MODULE_SYSLOG_TEST_001`
+
+---
+
+## Work Completed Step by Step
+
+### 1. Built Elasticsearch cluster
+
+* Installed and configured 3 Elasticsearch nodes
+* Joined nodes into a single HA cluster
+* Verified node status, master node, and shard placement
+* Fixed repeated master discovery and cluster state issues
+
+### 2. Enabled security and access control
+
+* Reset the `elastic` password
+* Verified authenticated REST access
+* Created `logstash_writer` role
+* Created `logstash_ingest` user
+* Confirmed Logstash could authenticate and write into Elasticsearch
+
+### 3. Deployed Logstash pipeline
+
+* Installed Logstash on a dedicated VM
+* Opened Beats port `5044`
+* Configured Logstash output to all ES nodes
+* Switched from raw index output to **data stream** output
+* Fixed `create` action requirement for data streams
+
+### 4. Configured Filebeat
+
+* Installed Filebeat on the Logstash host
+* Started with manual filestream input for:
+
+  * `syslog`
+  * `auth.log`
+* Then enabled the Filebeat `system` module
+* Fixed module loader path in `filebeat.yml`
+* Enabled module parsing for:
+
+  * `system.syslog`
+  * `system.auth`
+
+### 5. Fixed parsing
+
+* Added Grok filter in Logstash
+* Extracted:
+
+  * `syslog_timestamp`
+  * `syslog_host`
+  * `process`
+  * `log_message`
+* Verified parsing with test logs
+
+### 6. Validated ingest path
+
+* Created test logs using `logger`
+* Confirmed logs reached Elasticsearch
+* Confirmed logs appeared in Kibana Discover
+* Confirmed both syslog and auth log ingestion worked
+
+### 7. Created Kibana data views
+
+* Created data view for:
+
+  * `logs-linux-prod`
+* Used `@timestamp` as the time field
+* Verified searching and visualizing log events in Discover
+
+---
+
+## Validation Evidence
+
+The following checks were successfully verified:
+
+* Elasticsearch cluster health = **green**
+* Elasticsearch nodes = **3**
+* Logstash API on `9600` = healthy
+* Beats input on `5044` = listening
+* Filebeat service = running
+* Filebeat system module = enabled
+* Grok parse success = confirmed
+* Kibana Discover = showing results
+* Search by test log = successful
+
+---
+
+## Example Test Events Verified
+
+* `PIPELINE_GROK_TEST_002`
+* `AUTH_TEST_001`
+* `MODULE_SYSLOG_TEST_001`
+* `SYSTEM_MODULE_TEST_001`
+
+---
+
+## Remaining Work
+
+### Production hardening
+
+* TLS between all components
+* Secure Kibana and Elasticsearch endpoints
+* Remove plaintext passwords from configs
+* Move secrets to keystore / secure storage
+
+### Observability improvements
+
+* Add dashboards for:
+
+  * log volume
+  * logs by host
+  * auth failures
+  * syslog volume
+* Add monitoring for:
+
+  * Elasticsearch
+  * Logstash
+  * Filebeat
+  * Kibana
+
+### HA and resilience validation
+
+* Test failover by stopping one Elasticsearch node
+* Validate ingestion continues without interruption
+* Verify replica recovery after node restart
+
+### Expansion
+
+* Add more log sources:
+
+  * Nginx
+  * Apache
+  * Kubernetes
+  * OpenStack
+  * custom application logs
+* Decide whether Kafka is needed later as a buffer layer
+
+### Retention and lifecycle
+
+* Tune ILM policy
+* Define retention windows
+* Confirm rollover behavior for production usage
+
+---
+
+## Notes
+
+* This setup is now beyond lab-only configuration.
+* Core ingestion is functional.
+* The remaining work is mostly hardening, observability, and failover validation.
+
+---
+
+## Next Immediate Step
+
+* Validate Elasticsearch node failover without breaking log ingestion
+* Then move to TLS and hardening
+
+```
+```
