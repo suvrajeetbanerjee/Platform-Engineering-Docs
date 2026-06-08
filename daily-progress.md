@@ -1971,3 +1971,17 @@ The following checks were successfully verified:
 ```
 
 > NOTE : Using Kimchi.dev
+
+
+
+***
+***
+
+## 08-Jun-26
+
+- Created PRD on ticketing system
+- Increased GitLab Server Specs : 4/8 to 8/16 : CPU/RAM
+- Planned rancher failover auto-healing
+- MongoDB + MariaDB Observability : Prometheus + Grafana
+- ELK Server setup
+- Moved Storage of Current ELK Stack from zfs-local to primera-lvm
