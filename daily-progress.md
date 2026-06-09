@@ -1985,3 +1985,12 @@ The following checks were successfully verified:
 - MongoDB + MariaDB Observability : Prometheus + Grafana
 - ELK Server setup
 - Moved Storage of Current ELK Stack from zfs-local to primera-lvm
+
+***
+***
+
+## 09-Jun-26
+
+- Created PRD for Integration of Support Ticketing System into the Portal
+- Added APM for the ELK stack for monitoring Application Performance Metrics
+- Filebeat Daemon Sets in K8s Cluster sending Logs to Elasticsearch
