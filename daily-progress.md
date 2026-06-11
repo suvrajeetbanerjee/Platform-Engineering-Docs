@@ -1994,3 +1994,12 @@ The following checks were successfully verified:
 - Created PRD for Integration of Support Ticketing System into the Portal
 - Added APM for the ELK stack for monitoring Application Performance Metrics
 - Filebeat Daemon Sets in K8s Cluster sending Logs to Elasticsearch
+
+***
+***
+
+## 11-Jun-26
+- Created Wire Frames for the Ticketing Portal
+- Added 3 Users for ELK Dashhboard Access
+- Added another ip from .201 to .204 in worker node 1 for connection to openstack via portal for VM creation into another adapter using netplan
+- increased CPU/RAM of Ranncher Admin VM from 4 Core 8GB RAM to 8 Core 16 GB
