@@ -2003,3 +2003,12 @@ The following checks were successfully verified:
 - Added 3 Users for ELK Dashhboard Access
 - Added another ip from .201 to .204 in worker node 1 for connection to openstack via portal for VM creation into another adapter using netplan
 - increased CPU/RAM of Ranncher Admin VM from 4 Core 8GB RAM to 8 Core 16 GB
+
+***
+***
+
+## 12-Jun-26
+- updated haproxy timeout increased
+- deployed new backend code to production K8s cluster
+- added Openstack connection IP in worker node 3 which was missing and due to which application loading time significantly increased and performance was degraded, upon adding it the application performed with lightning speed
+- re-Created PRD final draft as per the given format
