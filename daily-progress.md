@@ -2012,3 +2012,15 @@ The following checks were successfully verified:
 - deployed new backend code to production K8s cluster
 - added Openstack connection IP in worker node 3 which was missing and due to which application loading time significantly increased and performance was degraded, upon adding it the application performed with lightning speed
 - re-Created PRD final draft as per the given format
+
+***
+***
+
+## 13-Jun-26
+- tasks
+  - MongoDB & MariDB Observability - ELK
+  - ELK - APM Monitoring for Backend API, Container logs ingestion - retention 15days	 
+  - Backup for MariaDB & MongoDB - cloud Console - twice a day - Retention - 15days	 
+  - Gitlab Backups - Once a Day - 30 days	
+  - Configure HA and replication for all Cloud Console VM
+  - Pull Latest Code on Live Cloud Console	
