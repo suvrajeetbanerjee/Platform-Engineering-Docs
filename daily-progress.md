@@ -2024,3 +2024,41 @@ The following checks were successfully verified:
   - Gitlab Backups - Once a Day - 30 days	
   - Configure HA and replication for all Cloud Console VM
   - Pull Latest Code on Live Cloud Console	
+
+***
+***
+
+##  15-Jun-26
+
+- establish **production-grade database observability** by collecting **MariaDB Galera + MongoDB logs and metrics into Elasticsearch/Kibana** using **Metricbeat for metrics** and **Filebeat for logs**. [elastic](https://www.elastic.co/docs/reference/beats/metricbeat)
+
+### done/established till now
+
+
+- confirmed ELK cluster is **healthy and green**. [user]
+- verified Elasticsearch is running **version 8.19.16**. [user]
+- confirmed Elasticsearch client traffic is over **HTTP, not HTTPS**, because `xpack.security.http.ssl.enabled: false`. [user]
+- confirmed Elasticsearch **authentication is enabled**, so Beats will need username/password. [user]
+- verified **Metricbeat and Filebeat are not installed yet** on the DB nodes. [user]
+- confirmed all DB nodes are on **Ubuntu 24.04**. [user]
+- verified MongoDB is listening on **27017** on the Mongo nodes. [user]
+- verified MariaDB is listening on **3306** on the Galera nodes. [user]
+- identified that MariaDB was **not generating slow query logs** initially because `slow_query_log` was OFF. [user]
+- found MariaDB `datadir` is **`/data/mysql/`**, so relative log names would land there, not in `/var/log/mysql`. [user]
+- confirmed MariaDB **error logs are currently going to journald**, not a dedicated file. [user]
+- inspected the MariaDB config and confirmed logging directives were mostly **commented out/default**. [user]
+- enabled the **MariaDB slow query log** safely at runtime for testing. [user] [mariadb](https://mariadb.com/docs/server/server-management/server-monitoring-logs/slow-query-log/slow-query-log-overview)
+- verified the slow log works by logging a **`SELECT SLEEP(2)`** test query. [user]
+- confirmed MongoDB logs are already being written to **`/var/log/mongodb/mongod.log`**. [user]
+- confirmed MongoDB logs are already in **structured JSON format**, which is ideal for direct shipping to Elasticsearch. [user]
+-  verified `mongoAdmin` works on primary and secondary, and  discovered auth mismatch behavior on node-3 from the logs. [user]
+-  clarified the MongoDB topology is **1 primary + 1 secondary + 1 arbiter**. [user]
+-  established that **Logstash is not required by default** for this DB setup, because Metricbeat can ship metrics directly and Filebeat can likely ship these DB logs directly too. [discuss.elastic](https://discuss.elastic.co/t/help-me-i-am-new-to-elk-i-want-to-ingest-mysql-logs-error-logs-slow-query-logs-and-also-a-general-logs/368883)
+
+
+#### What remains
+
+- Install **Metricbeat** on MariaDB and MongoDB data nodes for metrics. [elastic](https://www.elastic.co/guide/en/beats/metricbeat/8.19/metricbeat-module-mongodb.html)
+- Install **Filebeat** on MariaDB and MongoDB data nodes for logs. [elastic](https://www.elastic.co/docs/reference/integrations/mongodb)
+- Skip MongoDB metrics/log scraping on the **arbiter** unless you explicitly want host-level system metrics only. [user]
+- Decide later whether to enable **HTTPS for Elasticsearch HTTP traffic**, because production best practice is encrypted agent-to-ES traffic, not plaintext HTTP. [elastic](https://www.elastic.co/guide/en/beats/metricbeat/8.19/securing-communication-elasticsearch.html)
