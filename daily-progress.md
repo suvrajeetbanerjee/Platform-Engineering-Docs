@@ -2062,3 +2062,16 @@ The following checks were successfully verified:
 - Install **Filebeat** on MariaDB and MongoDB data nodes for logs. [elastic](https://www.elastic.co/docs/reference/integrations/mongodb)
 - Skip MongoDB metrics/log scraping on the **arbiter** unless you explicitly want host-level system metrics only. [user]
 - Decide later whether to enable **HTTPS for Elasticsearch HTTP traffic**, because production best practice is encrypted agent-to-ES traffic, not plaintext HTTP. [elastic](https://www.elastic.co/guide/en/beats/metricbeat/8.19/securing-communication-elasticsearch.html)
+
+
+***
+***
+
+## 16-Jun-26
+- added monitoring in ELK for MariaDB & MongoDB
+- Created a Gitlab runner for auto build tasks
+- deployed new codebase to production cluster
+- detailed wireframing andd concept mapping of ticketing system development (requirement-phase)
+
+***
+***
