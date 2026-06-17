@@ -2075,3 +2075,8 @@ The following checks were successfully verified:
 
 ***
 ***
+
+## 17-Jun-26
+- configured gitlab runner for auto-deployment of code from gitlab branch
+- completed v1 ticketing prd + wireframe in excalidraw + figma ui ready for customer side
+- planning of a way around to fetch the logs of Databases MongoDB and MariaDb galera cluster
