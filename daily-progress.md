@@ -2080,3 +2080,8 @@ The following checks were successfully verified:
 - configured gitlab runner for auto-deployment of code from gitlab branch
 - completed v1 ticketing prd + wireframe in excalidraw + figma ui ready for customer side
 - planning of a way around to fetch the logs of Databases MongoDB and MariaDb galera cluster
+
+## 18-Jun-26
+- admin side wireframing prd started
+- databases monitoring dashboards added to kibana
+- gitlab ci pipeline for production branch frontend console repo
