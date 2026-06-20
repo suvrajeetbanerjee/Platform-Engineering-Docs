@@ -2081,7 +2081,24 @@ The following checks were successfully verified:
 - completed v1 ticketing prd + wireframe in excalidraw + figma ui ready for customer side
 - planning of a way around to fetch the logs of Databases MongoDB and MariaDb galera cluster
 
+***
+***
+
 ## 18-Jun-26
 - admin side wireframing prd started
 - databases monitoring dashboards added to kibana
 - gitlab ci pipeline for production branch frontend console repo
+
+***
+***
+
+## 19-Jun-26
+- gitlab ci pipeline for auto deployment based on tags
+- prd admin ticketing system
+- sonarqube setup
+- fiksed rancher ui not opening via admin panel url
+- db + cluster + overall apps & vms obersvability setup
+> Observability is the key to success
+
+***
+***
