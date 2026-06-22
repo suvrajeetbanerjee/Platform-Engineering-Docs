@@ -2102,3 +2102,11 @@ The following checks were successfully verified:
 
 ***
 ***
+
+## 22-Jun-26
+
+- cleaned up kibana storage as kibana login did not work and logs did not show up in dashboards due to storage full issue
+- log retentionn = 15 days [auto-run-cleanup-script-cronjob] (pending task)
+- completed wireframing admin side ticketing portal
+- admin ticketing module prd document v.001 finished
+- dashboards in kibana for mongodb, mariadb galera cluster and redis completed
