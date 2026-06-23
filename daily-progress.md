@@ -2110,3 +2110,10 @@ The following checks were successfully verified:
 - completed wireframing admin side ticketing portal
 - admin ticketing module prd document v.001 finished
 - dashboards in kibana for mongodb, mariadb galera cluster and redis completed
+
+***
+***
+
+## 23-Jun-26
+- dashboarding in kibana
+- fiksing metrics and data not arriving from mariadb to kibana
