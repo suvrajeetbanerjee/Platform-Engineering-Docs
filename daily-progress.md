@@ -2117,3 +2117,10 @@ The following checks were successfully verified:
 ## 23-Jun-26
 - dashboarding in kibana
 - fiksing metrics and data not arriving from mariadb to kibana
+
+***
+***
+
+## 24-Jun-26
+- added features to figma admin-ticketing-portal
+- Region filter in queue, Column header sorting, Self-assign / Claim button, Loop-in Users panel, Activity Log tab, SLA clock paused notice, SLA breach report filter, Engineer filter in reports, Max User Limit setting, Invite validation, Category rules info block, SLA breach badge in sidebar
