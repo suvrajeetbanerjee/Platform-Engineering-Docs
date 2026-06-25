@@ -2124,3 +2124,10 @@ The following checks were successfully verified:
 ## 24-Jun-26
 - added features to figma admin-ticketing-portal
 - Region filter in queue, Column header sorting, Self-assign / Claim button, Loop-in Users panel, Activity Log tab, SLA clock paused notice, SLA breach report filter, Engineer filter in reports, Max User Limit setting, Invite validation, Category rules info block, SLA breach badge in sidebar
+
+- Verified ELK retention and storage state end-to-end: removed the unnecessary logs-kubernetes-prod stream, confirmed Linux logs were tiny and worth keeping, and checked write-block / 429 / read-only conditions.
+- Built and applied ILM retention across the stack — Host360/Linux logs = 15d, MongoDB logs = 7d, MongoDB metrics = 15d, APM metrics = 15d — then fixed the broken MongoDB ILM rollover mess by stripping rollover and reattaching clean delete-only retention.
+- Investigated MongoDB disk pressure and found the real culprit is log bloat, not database growth: /data/mongodb is only ~787 MB while /var/log/mongodb/mongod.log alone has inflated to 5.5 GB.
+
+***
+***
