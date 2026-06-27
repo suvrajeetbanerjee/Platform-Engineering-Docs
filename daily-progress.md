@@ -2131,3 +2131,19 @@ The following checks were successfully verified:
 
 ***
 ***
+
+
+## 25-Jun-26
+
+
+fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM under control so Elasticsearch and Kibana became usable again.
+• verified MongoDB, MariaDB observability pieces by checking MongoDB/MariaDB data views and dashboards in Kibana and confirming the Redis pod was healthy in Kubernetes.
+• I worked through the MongoDB and MariaDB dashboard setup, figured out which data views and fields to use, and started correcting broken Lens panels and short time-range issues for dashboards
+
+
+
+
+
+• Verified Redis connectivity, exposed it using a NodePort, and confirmed it is reachable from the Kibana VM.
+• Checked the Redis Metricbeat setup, Kibana integration, and Logstash pipeline to verify Redis metrics collection.
+• Found that Redis metrics are being collected but are not reaching Elasticsearch because the current Logstash routing drops Metricbeat events, so redis metrics reach elasticsearch adding metribeat events
