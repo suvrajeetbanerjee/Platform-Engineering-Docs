@@ -2142,8 +2142,16 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 
 
 
-
-
 • Verified Redis connectivity, exposed it using a NodePort, and confirmed it is reachable from the Kibana VM.
 • Checked the Redis Metricbeat setup, Kibana integration, and Logstash pipeline to verify Redis metrics collection.
 • Found that Redis metrics are being collected but are not reaching Elasticsearch because the current Logstash routing drops Metricbeat events, so redis metrics reach elasticsearch adding metribeat events
+
+
+***
+***
+
+## 29-Jun-26
+
+- Consolidated and reorganized the MongoDB and MariaDB monitoring dashboards into a single, cleaner database observability dashboard with refined visualizations and panel layout.
+- Integrated Redis Metricbeat → Logstash → Elasticsearch end-to-end, updated Logstash routing for Redis metrics, validated data ingestion, created a Redis data view, and built a comprehensive Redis monitoring dashboard in Kibana.
+- Verified the complete Redis monitoring pipeline, validated metric collection and dashboard values (health, memory, network, persistence, replication, keyspace, CPU), and finalized production-ready Redis observability panels.
