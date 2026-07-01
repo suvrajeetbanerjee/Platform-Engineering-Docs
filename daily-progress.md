@@ -2155,3 +2155,16 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 - Consolidated and reorganized the MongoDB and MariaDB monitoring dashboards into a single, cleaner database observability dashboard with refined visualizations and panel layout.
 - Integrated Redis Metricbeat → Logstash → Elasticsearch end-to-end, updated Logstash routing for Redis metrics, validated data ingestion, created a Redis data view, and built a comprehensive Redis monitoring dashboard in Kibana.
 - Verified the complete Redis monitoring pipeline, validated metric collection and dashboard values (health, memory, network, persistence, replication, keyspace, CPU), and finalized production-ready Redis observability panels.
+
+***
+***
+
+## 30-Jun-26
+
+- Researched the Knowledge Base (KB) module for the ticketing portal and mapped how it should fit into the customer/admin flows.
+- Reviewed the existing PRDs, wireframe guides, and codebase report to align the KB with the current Host360 architecture.
+- Fixed the Redis issue & Resolved the worker node down problem by stopping and restarting it.
+
+***
+***
+
