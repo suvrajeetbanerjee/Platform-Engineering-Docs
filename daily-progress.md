@@ -2168,3 +2168,8 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 ***
 ***
 
+## 01-Jun-26 & 02-Jun-26
+
+- Drafted and created wireframe diagrams for knowledge base for both admin & customer side of the ticketing-cum-support portal in excalidraw
+- created prd for admin portal and customer portal for ticketing/support - knowledge base
+- merge pending of knowledge base into with the main support/ticketing PRDs  for both customer and admin portals
