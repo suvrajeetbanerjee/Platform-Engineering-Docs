@@ -2173,3 +2173,12 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 - Drafted and created wireframe diagrams for knowledge base for both admin & customer side of the ticketing-cum-support portal in excalidraw
 - created prd for admin portal and customer portal for ticketing/support - knowledge base
 - merge pending of knowledge base into with the main support/ticketing PRDs  for both customer and admin portals
+
+***
+***
+
+## 03-Jun-26
+
+- prometheus + grafana setup in vm for cronjobs monitoring and alerting
+- cronjibs testing in staging environment
+- knowledge base for admin-ticketeing portal complete v1 
