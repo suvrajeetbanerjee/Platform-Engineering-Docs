@@ -2182,3 +2182,8 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 - prometheus + grafana setup in vm for cronjobs monitoring and alerting
 - cronjibs testing in staging environment
 - knowledge base for admin-ticketeing portal complete v1 
+
+## 05-Jun-62
+
+- metrics caputre  in prometheus and display in grafana
+ - cronjob deployments started, sucessfully ran or not, if ran then any error or not - metrics and others as well ...
