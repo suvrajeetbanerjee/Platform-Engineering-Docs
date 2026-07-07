@@ -2183,9 +2183,22 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 - cronjibs testing in staging environment
 - knowledge base for admin-ticketeing portal complete v1 
 
-## 05-Jun-26
+## 05-Jun-26 & 06-Jun-26
 
 - metrics caputre  in prometheus and display in grafana
  - cronjob deployments started, sucessfully ran or not, if ran then any error or not - metrics and others as well ...
 
 - metrics capture from prometheus and grafana views in various dashboards
+
+***
+***
+
+## 07-Jun-26
+
+- travel leave
+- compensated with saturday
+
+***
+***
+
+
