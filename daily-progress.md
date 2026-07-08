@@ -2201,4 +2201,12 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 ***
 ***
 
+## 08-Jun-26
+- tagged kibana discover sessions
+ - STG-Cron-logs
+ - app-staging-logs
+- cleared redis key-value database
+- moved volumes from local-zfs to primera-lvm
 
+***
+***
