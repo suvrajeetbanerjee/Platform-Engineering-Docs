@@ -2203,10 +2203,18 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 
 ## 08-Jun-26
 - tagged kibana discover sessions
- - STG-Cron-logs
- - app-staging-logs
+  - STG-Cron-logs
+  - app-staging-logs
 - cleared redis key-value database
 - moved volumes from local-zfs to primera-lvm
 
 ***
 ***
+
+## 09-07-2026
+- figma design admin and customer prd with knowledge base integrated
+- restarted worker nodes 2 and 3 as they were down in proxmox and was fixed & resumed the active state upon restart
+
+***
+***
+
