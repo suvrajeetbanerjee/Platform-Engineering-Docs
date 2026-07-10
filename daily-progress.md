@@ -2218,3 +2218,16 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 ***
 ***
 
+## 10-07-2025
+- improved figma design for support/ticketing portal with knowledge base for both admin & customer portals
+  - 6 alteration/improvements made
+      1. Notifications Panel (both portals)
+      2. Loop-in Add/Remove (admin ticket detail)
+      3. KB Article Suggestions (create ticket form)
+      4. Org Admin User Management screen (customer portal)
+      5. SLA Policy Inline Editing (admin portal)
+      6. Ticket Escalation Modal (admin ticket detail)
+- drafted v1 for sales prd
+
+***
+***
