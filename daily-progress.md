@@ -2168,7 +2168,7 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 ***
 ***
 
-## 01-Jun-26 & 02-Jun-26
+## 01-Jul-26 & 02-Jul-26
 
 - Drafted and created wireframe diagrams for knowledge base for both admin & customer side of the ticketing-cum-support portal in excalidraw
 - created prd for admin portal and customer portal for ticketing/support - knowledge base
@@ -2177,13 +2177,13 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 ***
 ***
 
-## 03-Jun-26
+## 03-Jul-26
 
 - prometheus + grafana setup in vm for cronjobs monitoring and alerting
 - cronjibs testing in staging environment
 - knowledge base for admin-ticketeing portal complete v1 
 
-## 05-Jun-26 & 06-Jun-26
+## 05-Jul-26 & 06-Jul-26
 
 - metrics caputre  in prometheus and display in grafana
  - cronjob deployments started, sucessfully ran or not, if ran then any error or not - metrics and others as well ...
@@ -2193,7 +2193,7 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 ***
 ***
 
-## 07-Jun-26
+## 07-Jul-26
 
 - travel leave
 - compensated with saturday
@@ -2201,7 +2201,7 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 ***
 ***
 
-## 08-Jun-26
+## 08-Jul-26
 - tagged kibana discover sessions
   - STG-Cron-logs
   - app-staging-logs
@@ -2211,14 +2211,14 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 ***
 ***
 
-## 09-07-2026
+## 09-Jul-26
 - figma design admin and customer prd with knowledge base integrated
 - restarted worker nodes 2 and 3 as they were down in proxmox and was fixed & resumed the active state upon restart
 
 ***
 ***
 
-## 10-07-2025
+## 10-Jul-26
 - improved figma design for support/ticketing portal with knowledge base for both admin & customer portals
   - 6 alteration/improvements made
       1. Notifications Panel (both portals)
@@ -2229,5 +2229,17 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
       6. Ticket Escalation Modal (admin ticket detail)
 - drafted v1 for sales prd
 
+***
+***
+
+## 11-Jul-26
+- Researched on how to make the knowledge base for ticketing portal SEO & GEO friendly.
+- Started wireframing sales prd on excalidraw.
+- Modifications made to figma design for support/ticketing portal against both admin & customer side :
+  - authentication UX
+  - 3-step authenticator screen added
+  - CSV export button added
+  - Collapsible sidebars
+ 
 ***
 ***
