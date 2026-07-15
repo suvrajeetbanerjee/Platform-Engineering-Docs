@@ -2251,3 +2251,14 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 
 ***
 ***
+
+## 14-Jul-26
+- updated figma design for customer portal ticketing system
+  - created a tab under audit logs named Support inside the customer portal
+- revised sales prd 
+- finished sales prd wireframing in excalidraw
+- added sla timer editor in admin portal for support/ticketing
+- uploaded ticketing PRDs to confluence and shared the respective links in Support Ticket - PRD Discussion Teams Channel.
+
+***
+***
