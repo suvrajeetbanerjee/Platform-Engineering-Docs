@@ -90,7 +90,8 @@ HAProxy + Keepalived VIP (172.20.10.148)
 - [x] VLAN tag `10` confirmed working on `vmbr0` for both Master-1 and Worker-1
 - [x] Static IPs confirmed persistent (set via Ubuntu installer)
 - [x] Gateway reachability confirmed: `172.20.10.1`
-- [x] Root cause identified for previous VM failures (Arpit, Mooaz, Surajeet's test VMs):
+- [x] Root cause identified for previous VM failures:
+<!-- (Arpit, Mooaz, Surajeet's test VMs): -->
   - Missing VLAN tag `10` on network adapter = no gateway access
   - Missing bridge adapter = VM isolated from network
 
@@ -129,7 +130,8 @@ apt-get autoremove -y
 rm -rf /root/qemu-11.0.0 /root/qemu-11.0.0.tar.xz
 ```
 
-### Issue 2 — Previous VM Network Failures (Arpit / Mooaz / Initial Test VMs)
+### Issue 2 — Previous VM Network Failures 
+<!-- (Arpit / Mooaz / Initial Test VMs) -->
 **What happened:** Three separate team members failed to create working VMs with network access.  
 **Root cause:** All three VMs lacked `VLAN tag 10` on `vmbr0`. Without the tag, VMs land on an untagged VLAN with no gateway route.  
 **Resolution:** All new VMs created with explicit `tag=10` on `vmbr0`. Confirmed by ping test on Master-1 and Worker-1.
@@ -2259,6 +2261,17 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 - finished sales prd wireframing in excalidraw
 - added sla timer editor in admin portal for support/ticketing
 - uploaded ticketing PRDs to confluence and shared the respective links in Support Ticket - PRD Discussion Teams Channel.
+
+***
+***
+
+## 15-Jul-26
+
+- issue discussed  - pages getting completely refreshed when switching tabs from left pane in portal
+- setup monitoring for proxmox VMs in elk
+- debugged worker 1 consuming too much space and pods getting evicted due to low storage problem
+- Meeting:
+  - discussed, added and planned tasks in Jira
 
 ***
 ***
