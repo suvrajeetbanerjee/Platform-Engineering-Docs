@@ -2275,3 +2275,23 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 
 ***
 ***
+
+## 16-Jul-26
+
+- increased/resized storage size/volumes of vms listed below with final/updated space
+  - worker-node1, worker-node2, worker-node3 : 250 GB each
+  - quay server : 150 GB
+  - gitlab-runner : 100 GB
+- easy-dcim discussion
+- tagged control-plane nodes in proxmox
+- added remaining VMs (listed below) to VM monitoring fleet : all VMs added (26 total)
+  - mongo-node-3, gitlab-build-server, mcp-server, grafana, prometheus, elk-es03, elk-es02, gitlab-runner
+- created gitlab-build-server VM for build jobs of pipeline
+- connected with deepanshu to increase the Primera LVM storage by 1.1 TB
+- updated Product - Management Servers Excel sheet
+  - added unused IPs list sheet
+  - added strong passwords for VMs with empty cell against the new Password column
+- added qemu-guest agent to mcp server & gitlab-build-server for VM IP to be visible in Proxmox
+
+***
+***
