@@ -2295,3 +2295,18 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 
 ***
 ***
+
+## 17-Jul-26
+
+
+- server-management sheet
+  - restored deleted password for mongo-db-primary node & made row 1 (top row) and Password Columns (F & G) non-editable.
+- created dashboard for : 
+  - current disk usage as Kibana > Observability > Infrastructure > Hosts shows Disk Usage (Max) and can't be changed
+  - link to Kibana > Observability > Infrastructure > Hosts
+- setup complete for VMs Monitoring & Alerting in Teams Channel named Alerts under Infrastructure Alerts Team using Teams workflow webhook 
+  - testing successfully done
+  - added respective persons as Teams members with full chat history
+
+***
+***
