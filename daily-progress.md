@@ -2298,7 +2298,6 @@ fixed the ELK storage mess by cleaning noisy logs and getting retention/ILM unde
 
 ## 17-Jul-26
 
-
 - server-management sheet
   - restored deleted password for mongo-db-primary node & made row 1 (top row) and Password Columns (F & G) non-editable.
 - created dashboard for : 
@@ -2316,3 +2315,12 @@ Claude zindabad
 ***
 ***
 
+## 20-Jul-26
+
+- checked on the alerts created earlier on teams channel named Alerts whether working as intended or not
+- daily standup 
+- sales CRM - wireframing updated on Excalidraw
+- elk elastic search node under disk pressure, i.e. usage showed above 85% (constant alerts), debugged the issue and found the fix required is to increase the storage from 40 gb to at least 100 gb for each nodes
+
+***
+***
