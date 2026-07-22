@@ -2324,3 +2324,15 @@ Claude zindabad
 
 ***
 ***
+
+## 21-Jul-26
+
+- drafted 1st version of sales wireframe in excalidraw
+- daily standup
+- discussion on sales portal wireframe and added/removed features as suggested
+- updated the color theme of the already existing support/ticketing portal as per the color theme of the host360 portal in Figma for both customer & admin portals respectively 
+- started drafting the sales portal & drafted the version1 design in Figma 
+- updated the done tasks in jira
+
+***
+***
