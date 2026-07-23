@@ -2336,3 +2336,19 @@ Claude zindabad
 
 ***
 ***
+
+## 22-Jul-26
+
+- completed the sales portal wireframe - all screens
+- increased data disks of elk - elastic search nodes (all 3 VMs), final updated sizes mentioned below & updated the excel sheet as well
+  - es01 : 260 gb (master node)
+  - es02 & es 03 : 150 gb each
+- sales prd created from the existing wireframe and figma design
+- modifications done to the existing components of the wireframe
+  - Quote Builder (added recurring charges, one-time payments, default terms with option to add additional term as per requirement)
+  - Leads Page (Duplicate Merge Button)
+  - added flavours to product catalog screen
+- updated Jira with task updates
+
+***
+***
