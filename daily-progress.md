@@ -2352,3 +2352,17 @@ Claude zindabad
 
 ***
 ***
+
+## 23-Jul-26
+
+- daily standup
+- updated sales prd document 
+- completed updating sales wireframe: modifications/additions to the existing components -
+  - login screen & forgot password screens added
+  - screen 18 : sales settings / source management & Add Source Modal
+- updated completed tasks in Jira comments
+  - sales prd comment
+  - sales wireframing update comment
+
+***
+***
