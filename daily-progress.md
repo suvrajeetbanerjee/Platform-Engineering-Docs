@@ -2366,3 +2366,20 @@ Claude zindabad
 
 ***
 ***
+
+## 24-Jul-26
+
+- hrms meeting & keka portal login 
+  - regularized attendance for the month of July till date
+  - updated the portal with necessary personal information
+- daily standup
+- uploaded prd documents - sales-crm, knowledge-base (admin & customer both) to confluence and moved to under review folder
+- discussion on test-cases deployment with Developers & Team
+- deleted evicted/completed pods after confirming 
+  - they are not the only running replica 
+  - the owning Deployment/Job is healthy
+  - no active rollout is stuck
+- Discussion on sales portal - lead management & opportunities section and figma updated
+
+***
+***
