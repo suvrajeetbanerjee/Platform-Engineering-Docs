@@ -2383,3 +2383,27 @@ Claude zindabad
 
 ***
 ***
+
+## 27-Jul-26
+- low BP leave (priviledged)
+
+***
+***
+
+## 28-Jul-26
+- daily standup
+- discussion with team what tasks were done yesterday
+- gitlab runner increased vcpu from 8 core to 12 core and restarted 
+- mongo-db node3 increased disk storage space to 150gb
+- updated micro tasks as adhoc tasks inside jira
+- knowledge base integration into support portal
+  - support portal figma modifications
+- all vms mentioned above are using Ubuntu 24.04 LTS primarily because of the resons mentioned below
+  - latest 26.04 does not supports the software & tool stack required
+  - especially the databases (mongoDB & mariaDB Galera Cluster)
+  - using 1 version less than the latest version is recommended for production
+  - why required ...
+
+***
+***
+    
