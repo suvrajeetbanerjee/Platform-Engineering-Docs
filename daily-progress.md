@@ -2396,8 +2396,9 @@ Claude zindabad
 - gitlab runner increased vcpu from 8 core to 12 core and restarted 
 - mongo-db node3 increased disk storage space to 150gb
 - updated micro tasks as adhoc tasks inside jira
-- knowledge base integration into support portal
-  - support portal figma modifications
+- knowledge base integration into support portal in figma make
+  - support portal figma modifications made
+  - updated the support portal figma make with required modifications for both admin & customer side
 - all vms mentioned above are using Ubuntu 24.04 LTS primarily because of the resons mentioned below
   - latest 26.04 does not supports the software & tool stack required
   - especially the databases (mongoDB & mariaDB Galera Cluster)
