@@ -2408,3 +2408,15 @@ Claude zindabad
 ***
 ***
     
+## 29-Jul-26
+- daily standup
+- discussion with team on
+  - local deployment setup,
+  - presentation on partner & distributor portal, and
+  - developers required modification on Prometheus env changes
+- updated support/ticketing portal prds for customer & admin side both in confluence
+- updated ticketing portal figma & knowledge base with necessary changes to both admin & customer side.
+- made billing changes to CP-Wireframe - Release 2.0 - Alpha - Prod figma file for ticketing module in customer side
+
+***
+***
