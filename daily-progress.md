@@ -2420,3 +2420,16 @@ Claude zindabad
 
 ***
 ***
+
+## 30-Jul-26
+- daily standup
+- meeting & discussion with developers
+  - fixed the error of data not flowing into their grafana dashboard from prometheus due to dns resolution error by adding entry for haproxy ip and prometheus and grafana domains into respective vms
+- replied to comments on Host360 Knowledge Base - PRD | Admin Portal | v0.1 in confluence for questions raised 
+- drafted notes before writing out prd from yesterdays recorded video meetings
+- completed and updated the following PRDs in confluence - require review
+  - Ticketing Module - both admin & customer
+  - Knowledge Base - both admin & customer
+
+***
+***
