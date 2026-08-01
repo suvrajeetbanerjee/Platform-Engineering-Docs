@@ -2391,6 +2391,7 @@ Claude zindabad
 ***
 
 ## 28-Jul-26
+
 - daily standup
 - discussion with team what tasks were done yesterday
 - gitlab runner increased vcpu from 8 core to 12 core and restarted 
@@ -2409,6 +2410,7 @@ Claude zindabad
 ***
     
 ## 29-Jul-26
+
 - daily standup
 - discussion with team on
   - local deployment setup,
@@ -2422,6 +2424,7 @@ Claude zindabad
 ***
 
 ## 30-Jul-26
+
 - daily standup
 - meeting & discussion with developers
   - fixed the error of data not flowing into their grafana dashboard from prometheus due to dns resolution error by adding entry for haproxy ip and prometheus and grafana domains into respective vms
@@ -2430,6 +2433,16 @@ Claude zindabad
 - completed and updated the following PRDs in confluence - require review
   - Ticketing Module - both admin & customer
   - Knowledge Base - both admin & customer
+
+***
+***
+
+## 31-Jul-26
+
+- daily standup
+- meeting notes made from points in discussion video from recording
+- made necessary & pending changes in figma for knowledge base & ticketing module
+- meeting with Support department personnel for Ticketing module, and discussed more points that are to yet be added to the module
 
 ***
 ***
