@@ -2446,3 +2446,15 @@ Claude zindabad
 
 ***
 ***
+
+## 01-Aug-26
+
+- Migration Job
+  - moved all 27 VMs from controller 1 & controller 2 to cmp4, cmp5, cmp6 respectively - 9 VMs each
+  - moved boot disks of VMs from primera-lvm/zfs-local to nvme-storage
+  - data disks moved from primera-lvm to sas-storage
+  - database disks still in primera-lvm as instructed
+- updated details in server management sheet
+
+***
+***
