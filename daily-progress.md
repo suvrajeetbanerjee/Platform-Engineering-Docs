@@ -2458,3 +2458,18 @@ Claude zindabad
 
 ***
 ***
+
+## 03-Aug-26
+
+- daily standup
+- studied zoho desk portal to understand how things work under the hood and what all things can be or need to be embedded inside our portal
+- detailed discussion with Support Personnel on Ticketing Module & as per his suggestions added some minor cosmetic changes to figma make file mentioned below:
+  - 3 hardcoded departments visible to customer while ticket creation - technical support, billing, sales
+  - admin side changes
+    - option to add/edit breach notification
+    - department dropdown filter added
+    - escalation heatmap in report
+    - added a card view for sla compliance report against each customer to show MTTR.
+
+***
+***
