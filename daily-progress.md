@@ -2488,3 +2488,15 @@ Claude zindabad
 
 ***
 ***
+
+## 05-Aug-26
+
+- Changes made in the existing admin portal - CP Wireframe :
+  - Added Access Control module with role-based permissions, ticket visibility, allowed teams/queues/channels, configuration permissions, in the existing admin portal - CP Wireframe.
+  - Added Channels configuration module with Customer Portal, Email, and WhatsApp tabs, including connection settings, routing, status, audit history, and management actions.
+- Changes in the Ticketing Portal Figma :
+  - For Reports tab, added ticket volume per agent, FTR metric, dynamic stale ticket in ticket settings, operational health improvements, and completed report cleanup/renaming as per requirements. 
+- Remaining: engineer performance & agent availability logic and PRD update for these implementations.
+
+***
+***
