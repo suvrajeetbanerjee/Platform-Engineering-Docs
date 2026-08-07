@@ -2500,3 +2500,21 @@ Claude zindabad
 
 ***
 ***
+
+## 06-Aug-26
+
+- daily standup
+- increased storage of below mentioned vms as kibana dashboard stopped working
+  - es01 = +40 Gb
+  - es02 & es03 = +110 Gb
+  - Kibana & Logstash = +60 Gb each
+- updated fleet agents of all vms from kibana dashboard
+- added figma changes to support portal & knowledge base
+  - added whatsapp channel configuration to admin support portal & added a new section showing communication details/summary
+  - signup options to knowledge base github/microsoft/google for accessed outside of the portal
+  - added internal & draft articles tabs
+  - updated the knowledge base editor with dev.to blog style editing features 
+- Remaining - PRD Updates
+
+***
+***
