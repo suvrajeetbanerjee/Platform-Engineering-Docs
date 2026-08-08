@@ -2518,3 +2518,15 @@ Claude zindabad
 
 ***
 ***
+
+## 07-Aug-26
+
+- daily standup
+- updated the PRDs for the below mentioned modules and added screenshots as well:
+  - Ticketing Module - Admin
+  - Ticketing Module - Customer
+  - Knowledge Base  - Admin
+  - Customer_Portal_Knowledge_Base
+
+***
+***
