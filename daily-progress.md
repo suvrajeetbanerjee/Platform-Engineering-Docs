@@ -2530,3 +2530,13 @@ Claude zindabad
 
 ***
 ***
+
+## 10-Aug-26
+
+- daily standup
+- updated & uploaded PRDs for ticketing & knowledge base modules to confluence, added all screenshots manually.
+- researched for gitlab audit analytics tools and found CLickHouse to be best for our use case with less complexity.
+- Started drafting K8s Cluster POC
+
+***
+***
