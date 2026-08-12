@@ -2540,3 +2540,13 @@ Claude zindabad
 
 ***
 ***
+
+## 11-Aug-26
+
+- daily standup
+- made changes to admin & customer ticketing module as per suggestions with a few remaining
+- created ppt on ticketing module
+- inspected gitlab and started configuring clickhouse for gitlab
+
+***
+***
