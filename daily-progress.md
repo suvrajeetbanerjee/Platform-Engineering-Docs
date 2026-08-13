@@ -2550,3 +2550,17 @@ Claude zindabad
 
 ***
 ***
+
+## 12-Aug-26
+
+- daily standup
+- updated tasks in jira with comments & links in description
+- updated below mentioned PRDs & figma as per suggestions
+  - Ticketing Module (Customer & Admin) - removed whatsapp related points, features, channels and screenshots
+  - Knowledge Base Module (Customer & Admin) - removed comments & sso signup options entirely from the module and related screenshots
+- clickhouse configuration for gitlab analytics
+  - task added in jira
+  - updated the progress in comments
+
+***
+***
