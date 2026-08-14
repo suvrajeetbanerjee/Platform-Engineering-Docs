@@ -2564,3 +2564,14 @@ Claude zindabad
 
 ***
 ***
+
+## 13-Aug-26
+
+- daily standup
+- integration of clickhouse data into Grafana for dashboards creation with team
+- researched way to display missing clone, push, and pull for gitlab data in clickhouse
+- support portal discussion with support personnel
+  - discussed few more changes to be implemented into the support portal and PRD
+ 
+***
+***
