@@ -2575,3 +2575,22 @@ Claude zindabad
  
 ***
 ***
+
+## 14-Aug-26
+
+- daily standup
+- workstatus configuration meeting
+- updated figma for ticketing module with the below mentioned changes :
+  - Removed Workload Types everywhere
+  - Added Sub-Category to ticket details
+  - Removed "Stale Ticket Update" from Ticket Settings & moved to Executive Dashboard as a searchable filter with the same functionality
+  - Added Region filter + Region column across all Reports sub-tabs
+  - KB Articles Used to ticket details to solve the ticket
+  - SLA & Compliance sub-tab : multi-select Categories filter
+  - Agent Performance updates : added tickets escalated on time card 
+  - FHRT (Ticket Analytics) rebuild
+  - Reply Templates added to ticket reply & ticket settings for configuration of the same
+- added these changes to Admin ticketing portal PRD & updated the same in confluence
+
+***
+***
