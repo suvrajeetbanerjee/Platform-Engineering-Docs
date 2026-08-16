@@ -2594,3 +2594,12 @@ Claude zindabad
 
 ***
 ***
+
+## 15/16-Aug-26
+
+- clickhouse setup completed
+- k8s documentation completed
+- revised the complete ticketing module admin prd in confluence
+
+***
+***
