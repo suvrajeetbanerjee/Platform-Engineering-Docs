@@ -2603,3 +2603,14 @@ Claude zindabad
 
 ***
 ***
+
+## 17-Aug-26
+
+- daily standup
+- rancher managed kubernetes setup documentation
+- updated roles & permissions settings in admin portal figma
+- updated prd with the changes made to figma design
+- updated comments in jira against tasks done
+
+***
+***
