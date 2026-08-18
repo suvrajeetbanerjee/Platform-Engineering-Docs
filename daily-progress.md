@@ -2614,3 +2614,20 @@ Claude zindabad
 
 ***
 ***
+
+## 18-Aug-26
+
+- daily standup
+- made the following changes to the support portal
+   - removed icons from sub tabs of reports tab in admin side
+   - added internal tags only visbile only to admins in ticket details with a new section beneath ticket details
+   - added tags in customer & admin side both
+   - tags will be used for report generation which resource caused problems in a cretain given time frame in the portal
+   - renamed system status of ticket from open to in progress
+   - added another system status of ticket named troubleshoot pause that pauses the sla clock and requires a mandatory internal note
+   - added button to accept priority for tickets created by customer
+   - renamed executive escalation to management escalation
+- updated prd with the changes to the support portal ticketing module & revised the images for permission matrix 
+
+***
+***
