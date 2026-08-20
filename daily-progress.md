@@ -2631,3 +2631,16 @@ Claude zindabad
 
 ***
 ***
+
+## 19-Aug-2026
+
+- finished updating the support portal admin prd with the changes made to figma and fixed grammatical errors
+  - added internal tags only visible to admins in ticket details with a new section beneath ticket details
+  - added another system status of ticket named troubleshoot pause that pauses the sla clock and requires a mandatory internal note
+- clickhouse grafana gitlab monitoring setup complete
+  - fetch, pull, push, clone data available & instantly reflects in the Grafana dashboard
+  - documentation part for the setup pending
+
+***
+***
+
