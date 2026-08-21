@@ -2632,7 +2632,7 @@ Claude zindabad
 ***
 ***
 
-## 19-Aug-2026
+## 19-Aug-26
 
 - finished updating the support portal admin prd with the changes made to figma and fixed grammatical errors
   - added internal tags only visible to admins in ticket details with a new section beneath ticket details
@@ -2644,3 +2644,24 @@ Claude zindabad
 ***
 ***
 
+## 20-Aug-26
+
+- workstatus configuration & installation finally complete
+- updated confluence with rancher managed k8s setup documentation
+- created & uploaded complete gitlab clickhouse setup documentation on confluence
+- increased gitlab runner disk storage, as alert showed it was running out of storage space
+- made the discussed changes to support portal figma & also updated the prd (mentioned below) and moved the same forward to Under Review in PRD Tracker in jira
+  - remove waiting on customer pause sla clock
+  - channel = email also for creating tickets, mentioned in foundation
+  - priority cannot be changed unless ticket is accepted either by agent or auto accepted
+  - rejection confirmation requires another priority to be selected (figma update)
+  - email parser
+  - first response value
+  - outbound email department staff configuration
+  - screenshot for internal tags
+  - removed unnecessary sections
+  - sla breach credits to be added to customer wallet manually
+- Updated jira with completed tasks & respective links
+
+***
+***
