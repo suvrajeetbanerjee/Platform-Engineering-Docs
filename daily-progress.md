@@ -2665,3 +2665,22 @@ Claude zindabad
 
 ***
 ***
+
+## 21-Aug-26
+
+- set up workstation access :
+  - python venv + python-openstackclient + kubectl + Helm 
+  - authenticated to chn-console.host360.ai (Platform-Team / Chennai) via the dbass app credential (created new).
+- Built OpenStack infrastructure:
+  - k8s-net (10.10.0.0/24), router to public-net, k8s-sg, keypair
+  - six VMs on Ubuntu-24.04-LTS: 3× C3.8GB control planes, 3× M3.48GB workers - all boot-from-volume, since every flavor on this cloud is Disk 0
+  - 2 Octavia LBs: k8s-api-lb (10.10.0.127 / FIP 154.21.234.193) and k8s-ingress-lb (10.10.0.143 / public IP 154.21.234.92) & 6 temporary SSH floating IPs
+- Installed k3s v1.36.3+k3s1 HA on all 6 nodes.
+- Blockers hit: 
+  1. PowerShell here-strings sent CRLF into bash -s
+      - fixed by base64-encoding scripts over SSH
+  2. control-plane joins failed with EOF because the 6443 rule used --remote-group k8s-sg, excluding the Octavia amphorae in their own security group, so all pool members showed ERROR 
+      - fixed with a --remote-ip 10.10.0.0/24 rule
+
+***
+***
