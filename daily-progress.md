@@ -2685,10 +2685,20 @@ Claude zindabad
 ***
 ***
 
-## 22-Aug-26
+## 22-Aug-26 & 23-Aug-26
 
 - DBaaS Provisioning using AppsCode KubeDB
 - CLusters Provisioned
+
+***
+***
+
+## 24-Aug-26
+
+- Tested DBaaS Provisioning for PostgreSQL, MariaDB Galera Cluster, MongoDB 3 Node Cluster
+- reply to confluence comment for Ticketing PRD
+- Updated excel sheet for servers
+- DBaaS setup Documentation
 
 ***
 ***
