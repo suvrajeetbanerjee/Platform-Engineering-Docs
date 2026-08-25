@@ -2702,3 +2702,13 @@ Claude zindabad
 
 ***
 ***
+
+## 24-Aug-26 (Addon)
+
+- Setup already completed for k8s installation, configuration and ace setup for KubeDB DBaaS on weekend.
+- Fixed gitlab data that stopped flowing into Grafana due to clickhouse error, Grafana dashboard was not showing data
+- created and tested 7 databases with required fields noted
+  - Postgres, MySQL, MongoDB, Redis, Elasticsearch, Kafka, Pgpool
+ 
+***
+***
