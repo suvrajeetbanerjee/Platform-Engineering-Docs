@@ -2703,12 +2703,23 @@ Claude zindabad
 ***
 ***
 
-## 24-Aug-26 (Addon)
+## 24-Aug-26 (Addon) (sent in teams updates)
 
 - Setup already completed for k8s installation, configuration and ace setup for KubeDB DBaaS on weekend.
 - Fixed gitlab data that stopped flowing into Grafana due to clickhouse error, Grafana dashboard was not showing data
 - created and tested 7 databases with required fields noted
   - Postgres, MySQL, MongoDB, Redis, Elasticsearch, Kafka, Pgpool
  
+***
+***
+
+## 25-Aug-26
+
+- clickhouse vm restored, vault and clickhouse VMs used same ip, and gitlab data now visible in gafana again.
+- enabled all KubeDB feature gates and went from 9 engine CRDs to 30, then provisioned 19 engines out of which 14 reached Ready.
+- extracted the authoritative form-field specification for all 30 engines from the live CRD schemas, including topology roles.
+- diagnosed why 10 engines were rejected and 4 never started, and mapped the capacity ceiling that stopped the run.
+- jira update for all these tasks still pending
+
 ***
 ***
