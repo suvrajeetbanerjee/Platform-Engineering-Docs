@@ -2723,3 +2723,13 @@ Claude zindabad
 
 ***
 ***
+
+## 26-Aug-26
+
+- Provisioned four corrected KubeDB engines onto the live cluster — ZooKeeper, PerconaXtraDB and ProxySQL all reached Ready, confirming the version-filter fix was real
+- setup MinIO object store with druid and milvus buckets, unblocking the two engines that KubeDB refused to create without S3.
+- updated servers management complete excel sheet with proxmox node, cpu/ram specs, disk sizes - boot & data
+- meeting with developers regarding the ticketing module
+
+***
+***
