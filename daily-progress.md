@@ -2719,7 +2719,7 @@ Claude zindabad
 - enabled all KubeDB feature gates and went from 9 engine CRDs to 30, then provisioned 19 engines out of which 14 reached Ready.
 - extracted the authoritative form-field specification for all 30 engines from the live CRD schemas, including topology roles.
 - diagnosed why 10 engines were rejected and 4 never started, and mapped the capacity ceiling that stopped the run.
-- jira update for all these tasks still pending
+- jira update for all these tasks **(still pending) (yet to be completed)**
 
 ***
 ***
@@ -2730,6 +2730,16 @@ Claude zindabad
 - setup MinIO object store with druid and milvus buckets, unblocking the two engines that KubeDB refused to create without S3.
 - updated servers management complete excel sheet with proxmox node, cpu/ram specs, disk sizes - boot & data
 - meeting with developers regarding the ticketing module
+
+***
+***
+
+## 27-Aug-26
+
+- increased quay server vcpu & cores count from 4 to 8, as it frequently crossed the 90% usage threshold mark and alerts showed up in teams channel and updated the same in the product servers management excel sheet as well
+- fixed the mcp alert continuously popping up in teams, no more 0 document received alerts from mcp server showing host has stopped reporting in every 10 minute window
+- recovered cluster access after the API load balancer's allowlist rotated , and got Druid's six roles all Running once the metadata database existed
+- fixed Milvus, Oracle and PgBouncer actual root causes from the operator log
 
 ***
 ***
