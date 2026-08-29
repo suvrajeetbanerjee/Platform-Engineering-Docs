@@ -2743,3 +2743,14 @@ Claude zindabad
 
 ***
 ***
+
+## 28-Aug-26
+
+- updated knowledge base prd to match with figma as some points and components still remained
+- fixed the PowerShell param collision that made the capacity reclaim silently delete nothing, finally freeing up 11,950m and unblocking two stuck engines.
+- got MariaDB Galera 3-node cluster Ready in 2m 26s and MSSQLServer Ready after 14 hours Pending, taking the proven working count to 27 engines
+- closed out engine discovery and moved the project to portal design, which is now the only thing pending
+- jira updates pending
+
+***
+***
