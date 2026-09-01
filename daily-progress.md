@@ -2754,3 +2754,15 @@ Claude zindabad
 
 ***
 ***
+
+## 31-Aug-26
+
+- Database as a Service(DBaaS) using Kubedb provisioning complete
+- started figma for Database in main wireframe copy file for customer side
+- updated tasks in jira with comments
+- pending tasks
+   - admin side figma for database configuration
+   - prd document creation against the same
+
+***
+***
