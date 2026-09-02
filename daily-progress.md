@@ -2766,3 +2766,13 @@ Claude zindabad
 
 ***
 ***
+
+## 01-Sep-26
+
+- progressed with updating the figma design for customer side against the database section for DBaaS
+- upgraded all the fleet agents as alerts were coming for each/all vm showing 0 document received in 10 minute window
+- pending
+  - pricing/billing decision for databases
+
+***
+***
