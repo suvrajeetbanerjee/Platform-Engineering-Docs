@@ -2776,3 +2776,14 @@ Claude zindabad
 
 ***
 ***
+
+## 02-Sep-26
+
+- Exposed a KubeDB Galera cluster through a NodePort Service and proved it reachable from the public internet, initially tested using this method.
+- Built an Octavia load balancer with three members and a floating IP at x.x.x.x, giving one stable customer-facing address on port 3306.
+<!-- 154.21.234.22-->
+- Fixed non-deterministic pod routing with externalTrafficPolicy: Local + sessionAffinity: ClientIP, and created a scoped appuser/appdb instead of handing out root.
+- Closed the temporary world-open NodePort rule and detached the three worker floating IPs, leaving the load balancer as the only public path in.
+
+***
+***
