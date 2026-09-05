@@ -2787,3 +2787,12 @@ Claude zindabad
 
 ***
 ***
+
+## 03-Sep-26
+
+- completed Figma for database as a service
+- tested the connectivity architecture: one shared load balancer, a unique port per database, and a wildcard dns hostname instead of an IP per database
+- the connection Details modal had no credentials and shows the engine's default port instead of the allocated public port
+
+***
+***
