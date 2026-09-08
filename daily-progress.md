@@ -2800,11 +2800,11 @@ Claude zindabad
 ## 04-Sep-26
 
 
-• hardened the public database endpoint end-to-end: dropped root@'%' to revoke FILE from the app user, and set the Octavia listener allowlist so the MariaDB endpoint is no longer reachable from the open internet.
-• fixed a total outage of the public database path caused by KubeDB relabelling Galera pods to kubedb.com/role=Unknown, which silently emptied the Service endpoints and also failed all three load balancer health checks.
-• configured single-writer routing on the Galera pool by marking two of three members as backup, eliminating the write-certification conflicts that multi-node round-robin would have caused under concurrent load.
-• added four world-open security group rules — NATS 4222, S3 4224, SSH 22 and kube API 6443 — down from 0.0.0.0/0 and a full ISP /16 to the cluster subnet and a single host, verifying ingress and cluster access after each change.
-• also verified data durability across the cluster: wrote through the load balancer, read back four rows, and confirmed identical row count on a third Galera node with wsrep_cluster_size = 3.
+- hardened the public database endpoint end-to-end: dropped root@'%' to revoke FILE from the app user, and set the Octavia listener allowlist so the MariaDB endpoint is no longer reachable from the open internet.
+- fixed a total outage of the public database path caused by KubeDB relabelling Galera pods to kubedb.com/role=Unknown, which silently emptied the Service endpoints and also failed all three load balancer health checks.
+- configured single-writer routing on the Galera pool by marking two of three members as backup, eliminating the write-certification conflicts that multi-node round-robin would have caused under concurrent load.
+- added four world-open security group rules — NATS 4222, S3 4224, SSH 22 and kube API 6443 — down from 0.0.0.0/0 and a full ISP /16 to the cluster subnet and a single host, verifying ingress and cluster access after each change.
+- also verified data durability across the cluster: wrote through the load balancer, read back four rows, and confirmed identical row count on a third Galera node with wsrep_cluster_size = 3.
 
 ***
 ***
