@@ -2808,3 +2808,12 @@ Claude zindabad
 
 ***
 ***
+
+## 07-Sep-26
+
+- solved the hostname-based database connectivity - resolved locally to the load balancer's floating IP, connected over TLS as the scoped user, and wildcard routing confirmed separately against two randomly generated names that did not exist earlier
+- replaced the listener allowlist refresh with a read-merge-write implementation backed by a desired-state file, & added the cluster subnet as a non-drifting source
+- backed up all-agent-offline.yaml, increased its flatline window from 10 to 20 minutes, validated and restarted ElastAlert2 so that 0 document in 10 minute windows against all vm does not show up any more
+
+***
+***
