@@ -2817,3 +2817,12 @@ Claude zindabad
 
 ***
 ***
+
+## 08-Sep-26
+
+- built and verified a cert-manager CA chain in the k8s cluster and attempted TLS enablement on the Galera cluster
+- created elk setup documentation in confluence
+- updated jira with tasks' comments
+
+***
+***
