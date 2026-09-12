@@ -2826,3 +2826,13 @@ Claude zindabad
 
 ***
 ***
+
+## 09-Sep-26
+
+- Debugged kubedb not operational to finally find out that public ip from openstack is not working as isp is being changed
+- created documentation for Production VM Monitoring and Teams Alerting in confluence
+- meeting & discussion with developers regarding ticketing module
+- updated done tasks in jira
+
+***
+***
