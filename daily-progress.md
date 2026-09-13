@@ -2836,3 +2836,16 @@ Claude zindabad
 
 ***
 ***
+
+## 10-Sep-26
+
+
+- discussion of tasks and DBaaS setup
+- created elk dashboard for admin & console backend - GO application logs - staging environments in elk
+- drafted and updated DBaaS prd - client & admin in confluence
+- created vm for k8s cluster setup - unable to create all the 3 machines, got PowerMgmt error
+- updated the server management sheet with the details of the newly created servers
+- updated tasks in jira
+
+***
+***
