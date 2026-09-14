@@ -2849,3 +2849,17 @@ Claude zindabad
 
 ***
 ***
+
+
+## 11-Sep-26
+
+- created 3 vms for k8s cluster and joined using registration command in rancher admin
+  - updated and upgraded vms, installed qemu guest agent, disabled swap
+  - verified rancher connectivity from vms
+  - created cluster named cmp-dev-v1
+  - joined all 3 vms using registration command with role = etcd + control plane + worker
+- discussion on deployment checklist
+- planned notification settings for ticketing module
+
+***
+***
