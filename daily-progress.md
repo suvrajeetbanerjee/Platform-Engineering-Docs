@@ -2863,3 +2863,11 @@ Claude zindabad
 
 ***
 ***
+
+## 15-Sep-26
+
+- updated figma with notification settings for the support portal
+- created developers access for the dev k8s cluster
+
+***
+***
