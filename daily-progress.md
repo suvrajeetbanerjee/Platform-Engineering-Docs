@@ -2871,3 +2871,13 @@ Claude zindabad
 
 ***
 ***
+
+## 16-Sep-26
+
+- updated ticketing module prd - both admin & customer side with notification changes made to the support portal figma
+debugged dbaas setup reachability failure to the point where after ISP change, a router configuration is required to be made so that ace console - can be accessed again from the openstack public IP 
+- examined the connection issue faced by developers connecting & logging in to rancher dashboard for the k8s cluster
+- added k8s cluster jira tasks & connection issue ad-hoc task
+
+***
+***
