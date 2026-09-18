@@ -2881,3 +2881,14 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 17-Sep-26
+
+- meeting with developers regarding k8s discussion and explanation for cluster terms and connections
+- studied kubernetes as a service prd as per the discussed meeting points and to understand the requirements for developers use case and portal requirement
+- inspected the connection issue despite for kubedb ace console not opening after isp connection setup complete
+- recovered cluster agent connectivity which got disconnected during configuration, and prepared secure HAProxy HTTPS access for Rancher via product-rancher.host360.ai
+- refreshed jira with task updates
+
+***
+***
