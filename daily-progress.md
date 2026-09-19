@@ -2892,3 +2892,14 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 18-Sep-26
+
+- diagnosed the issue of kubedb ace console offline because The VM can’t reach its provider gateway (154.21.234.1), even though traffic from the router (154.21.234.43), it should reach the same without needing the internet - North-south is dead in both directions. Nothing in, nothing out.
+- cleaned support portal prds with contradictions and left-overs
+- added remaining support portal figma screens for the notifications section
+- resolved issues/doubts for dev. team regarding the support portal notification updates in figma and prd
+- shared figma code for frontend dev.
+
+***
+***
