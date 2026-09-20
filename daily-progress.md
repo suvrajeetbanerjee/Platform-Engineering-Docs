@@ -2903,3 +2903,12 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 20-Sep-26
+
+- updated product management excel servers sheet with applications logins
+- updated jira with completed tasks
+- setup a new empty database for proxmox repo, ran migrations & seed command
+
+***
+***
