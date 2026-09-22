@@ -2904,11 +2904,26 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 ***
 ***
 
+<!--
 ## 20-Sep-26
 
 - updated product management excel servers sheet with applications logins
 - updated jira with completed tasks
 - setup a new empty database for proxmox repo, ran migrations & seed command
+
+***
+***
+-->
+
+## 21-Sep-26
+
+- studied Kubernetes as a service prd and the figma design
+- case studies on database as a service using kubedb
+- cleared images and build cache from gitlab-runner vm showing low storage error in teams alert
+- discussion with team on deployment pipeline & security using vault, modifications/improvements needed in the current setup
+- allowed rancher admin portal access only from rdp similar to whitelisting done for gitlab access
+- updated tasks in jira
+- restored cluster connectivity, renewed the expired ACE licence for kubedb
 
 ***
 ***
