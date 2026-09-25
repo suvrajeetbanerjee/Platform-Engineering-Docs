@@ -2927,3 +2927,13 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 22-Sep-26
+
+- fixed an 18-day TLS block to a hardening script dropping root@'%', restored it - scoped to pods, & completed verified certificate rollout on MariaDB
+- recovered ACE end to end: installed enterprise license files bypassing a broken API fetch, realigned PostgreSQL & Redis passwords, restored the console.
+- found the security group permitted only one nodePort, opened the range, and brought PostgreSQL live to customers through the gateway with verified TLS.
+- passed the first failover test — killed a Galera node under live traffic: 143 queries, zero failures, zero customer - visible outage, 63-second recovery.
+
+***
+***
