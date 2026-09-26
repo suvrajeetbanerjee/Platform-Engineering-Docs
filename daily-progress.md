@@ -2937,3 +2937,15 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 23-Sep-26
+
+- created & verified a cronjob clearing out docker images and build cache from gitlab-runner server, freeing up space daily at 5:30 am daily & cleared logs data, i.e. reclaimed space - saved in file /var/log/docker-prune.log
+- added newly created/remaining vms to the kibana vm monitoring fleet mentioned below
+  - vault, gitlab-stg, proxcenter (multiportal1), nexovirtx, clickhouse, semgrep (security), mariadb-stg, Dev-Cluster-CP-Wrk-1 = cp-wrk-1, Dev-Cluster-CP-Wrk-2 = cp-wrk-2, Dev-Cluster-CP-Wrk-3 = cp-wrk-3, proxmox (meridian) was already added as it was renamed from mcp to proxmox
+- rebuilt the database gateway as ACTIVE_STANDBY with two amphorae and cut the customer floating IP over, eliminating the platform's single point of failure, after creating the Octavia flavour against it
+- stabilised ACE permanently by suspending the HelmRelease before repairing, stopping the chart regenerating credentials on every reconcile.
+- updated jira comments
+
+***
+***
