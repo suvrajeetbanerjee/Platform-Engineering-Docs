@@ -2949,3 +2949,16 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 24-Sep-26
+
+- verified db connections from outside through the gateway, found and closed an external root-login
+- tested all 24 engines that can run here by writing and reading back a token, including five that did not work earlier : Weaviate, DB2, HanaDB, Druid and Milvus.
+- found and fixed hidden faults along the way: 
+  - an out-of-date MinIO password, 
+  - KubeDB's Milvus storage-class and default-credential errors, 
+  - the missing etcd operator, and the Hazelcast licence crash.
+- meeting with developers, regarding Kubernetes node registration errors for created cluster (kaas)
+
+***
+***
