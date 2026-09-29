@@ -2962,3 +2962,17 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 25-Sep-26
+
+- fixed the ACE NATS crash loop (263 restarts), is stable now & the console loads faster
+- setup, checked & verified database backups
+- removed the old single-amphora gateway db-lb-01 and moved customers to hostnames via the Cloudflare *.db.host360.ai record & verified all dbs pass TLS verification by hostname
+- meeting with developer regarding k8s, debugged creating, deleting & joining nodes specified as worker & control plane respectively to the rancher cluster via api
+- tested Cinder volume - create, attach, detach, re-attach on another node with data intact, and delete & moved ACE's NATS and Redis back to Cinder, made local-path permanently non-default on all control-plane nodes
+- enabled Prometheus metrics on customer dbs through KubeDB Restart OpsRequests successfully
+- reviewd high-availability failover tests 
+- vertical scaling, storage expansion, version upgrades, password rotation tests successfully passed for mysql and postgresql without data loss
+
+***
+***
