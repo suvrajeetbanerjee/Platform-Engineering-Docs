@@ -2976,3 +2976,11 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 28-Sep-26
+
+- restored the ACE console by moving its backend off the dead node to worker-3 from worker-2 as the physical host CHN-COMPUTE-3 failed & verified customer databases read and write from the public internet by ip and hostname with verified tls
+- diagnosed & tried fixing the elk node frequent low disk storage problem, reviewing ilm policies, ingestion by logstash & also the longer retention of logs
+
+***
+***
