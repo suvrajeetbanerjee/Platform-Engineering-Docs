@@ -2984,3 +2984,13 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 29-Sep-26
+
+- fixed elk node disk teams alerts
+- discussion with developer for successful creation of rancher cluster with node groups via api
+  - removed the rancher-system-agent. Service from a test vm used to demonstrate node joining in a rancher k8s custer
+- kept ilm policies, built and tested a tool patch for empty-stream cleanup & snapshots for 14days of data
+
+***
+***
