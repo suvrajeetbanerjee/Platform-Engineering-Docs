@@ -2994,3 +2994,12 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 30-Sep-26
+
+- deleted all the stale, empty leftover data from yesterday's operations in elk nodes - cleaning up the disk, making more room 
+- created & implemented cleanup policies with history of each cleanup indices recorded so that these kind of elk disk issue teams alerts never ever appear in the near future
+- applied 30 days retention policies for metrics & 90 days for logs respectively
+
+***
+***
