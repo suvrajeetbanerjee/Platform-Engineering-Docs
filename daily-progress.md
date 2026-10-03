@@ -3003,3 +3003,14 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 01-Oct-26
+
+- found out Proxmox sas storage for data disks is very slow & significantly impacting disk performance because writing cluster taking 10+ sec. of time which must be under 0.1s, also chn-compute3 in openstack was down few days ago because of which kubedb setup k8s cluster showed 2 vm nodes out of sync & not ready, resulted in kubedb operation delay & slow elastic search operating speed respectively
+- created dashboards for cronjobs pods - staging environment
+- added newly created vms to kibana monitoring fleet
+- updated all vm fleet agents to latest version
+- updated tasks in jira
+
+***
+***
