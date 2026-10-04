@@ -3014,3 +3014,10 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 02-03-04-Oct-26
+
+- Gandhi Jayanti Holiday & Weekend Off
+
+***
+***
