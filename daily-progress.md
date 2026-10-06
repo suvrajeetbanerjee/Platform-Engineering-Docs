@@ -3021,3 +3021,18 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 05-Oct-26
+
+- check if disk speed for elk nodes were normal, were still very slow
+- discussion on staging server not responding issue
+- changed the password of rancher admin dashboard to a strong password & updated in the sheet
+- created a vm for 4th worker & then deleted the same as a cluster was already there which is to be now used for/as staging server
+- found out Prometheus, Grafana & monitoring was down in k8s cluster was due to the data disks moved from primera-lvm to sas-storage while migration was done from controller-1,2 to cmp-4,5,6 nodes respctively
+  - re-installed & configured Prometheus & grafana 
+  - both are up & running now
+  - also updated servers sheet with latest Grafana login credentials
+- refreshed jira with tasks
+
+***
+***
