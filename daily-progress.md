@@ -3051,3 +3051,16 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 07-Oct-26
+
+- restored kubectl and database access
+- tried fixing cp-2 but was not able to because its emergency shell is on the serial port
+- created switch for switching access between production & staging cluster using the same terminal from rancher admin vm
+- built and tested the portal-backend parts :
+  - customer onboarding, gateway ports, status mapping, billing records, monitoring queries & read-only endpoints
+  - tested  customer db & its tls worked through the gateway
+- verified a read-only endpoint on a 3-node postgresql - both standbys serve reads and refuse writes
+
+***
+***
