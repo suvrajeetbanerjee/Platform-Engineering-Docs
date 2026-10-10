@@ -3064,3 +3064,13 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 08-Oct-26
+
+- added newly created vms to the kibana monitoring fleet
+- updated client & admin prd
+- updated jira tasks - order & comments
+- tried fixing control-plane-2 for dbaas setup, still having issues due to chn-compute-3 hypervisor.
+
+***
+***
