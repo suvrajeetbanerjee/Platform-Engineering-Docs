@@ -3074,3 +3074,14 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 09-Oct-26
+
+- investigated recurring elk disk alerts and verified cluster health, shard allocation, disk capacity, and elasticsearch node statistics
+- measured synchronous-write latency across all three elasticsearch nodes, & found severe delays on es01 and es02 vms
+- analysed vmstat, iostat, I/O pressure, and process-level disk activity to check storage bottlenecks & there is persistent write backlog despite balanced shard allocation, zero write rejections, and no active segment merges in es-02 node
+- so paused retention deletion, ILM application, and rebalancing changes pending due to storage diagnosis and performance validation results
+- refreshed Jira task
+
+***
+***
