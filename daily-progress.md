@@ -3085,3 +3085,13 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 12-Oct-26
+
+- increased vcpu of registry-01 & registry-02 vms from 1vcpu to 2vcpu due to constant high cpu usage teams alerts
+- started drafting technical reference document for dbaas prd
+- started to create apm for the remaining 2 applications - backend-{console, console-admin} on staging server, 2 already existed
+- updated jira
+
+***
+***
