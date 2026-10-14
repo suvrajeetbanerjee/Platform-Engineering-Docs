@@ -3095,3 +3095,12 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 13-Oct-26
+
+- fixed the APM Server's 403 on agent central config by granting its Elasticsearch user read access to .apm-agent-configuration; also assessed staging cron workloads for APM coverage & tried bringing host360-stg APM to production parity
+- progressed further with technical reference document for dbaas prd & updated the same in confluence
+- refreshed jira
+
+***
+***
