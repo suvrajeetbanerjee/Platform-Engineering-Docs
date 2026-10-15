@@ -3104,3 +3104,15 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 14-Oct-26
+
+- replied to comments in confluence for the ticketing module prd questions & updated as well
+- updated the technical reference document - on the verge of completion
+- for getting the apm of remaining 2 backend deployments, it was found that 
+  - apm server do not receive any metrics , showing no agent activity - backend app needs correction
+  - both backends stops with 35 secs., they run the same image, so something changed in release.
+  - The staging backends run a newer build and have never sent a trace.
+
+***
+***
