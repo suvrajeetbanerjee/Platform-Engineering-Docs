@@ -3116,3 +3116,14 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 15-Oct-26
+
+- replied to remaining comments raised by developer in confluence against the ticketing module prd questions
+- studied latest docs. uploads in confluence - devops docs & pocs (openbao & registry runbook)
+- re-tested the kubedb setup & it worked as intended, all components working fine
+- updated the dbaas prd technical reference document - completed
+- refreshed jira to update task status
+
+***
+***
