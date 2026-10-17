@@ -3127,3 +3127,16 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 16-Oct-26
+
+- explained & demoed kubedb setup to product team, discussed ongoing platform changes like the openbao setup, pipeline changes made for moving staging workloads to dev k8s rancher managed cluster 
+- discussed with team the apm setup for remaining 2 staging environment deployment pods, which are unavailable in the apm dashboard, & the methods tried
+- connected provisioned kubedb databases using dbeaver for windows, used python scripts till now for connection & read-write tests
+- tried bringing remaining 2 backend staging env. deployed pods unavailable in apm dashboards:
+  - ran image digest checks
+  - tested 5sec. throwaway pods read files inside staging env.
+  - restarted staging pods twice & rolled back because still the pods did not appear in the apm page
+
+***
+***
