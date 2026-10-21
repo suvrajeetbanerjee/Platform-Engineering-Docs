@@ -3140,3 +3140,14 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 19-Oct-26
+
+- started drafting documentation for design changes made to the elk setup
+- staging apm pending admin-backend deployments metrics
+  - checked which code each running image contains from manifests in quay
+  - also verified the same from gitlab build pipelines data where header shows tags & commits
+  - successful deployment to fix staging still underway requiring incremental tagging of build jobs
+
+***
+***
