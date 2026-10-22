@@ -3151,3 +3151,19 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 21-Oct-26
+
+- analyzed on how to automate provisioning & configuration of load-balancers required for kubedb setup
+- in progress: 
+  - csi driver installation in cmp-dev-v1 cluster - used for provisioning staging workloads
+  - configuration of storage class for sas drive
+  - installation of Prometheus & Grafana for staging cluster
+- starred necessary dashboards in Grafana required for pod level resource monitoring
+- discussion with team on :
+  - kubedb operations & other terminologies he had doubt on
+  - manifests migration to helm & argocd
+  - pod level monitoring already present Grafana dashboards in rancher monitoring grafana
+
+***
+***
