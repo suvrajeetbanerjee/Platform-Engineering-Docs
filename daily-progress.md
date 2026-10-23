@@ -3167,3 +3167,14 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 22-Oct-26
+
+- upgraded & updated argocd vm, installed qemu guest agent, enrolled the vm to fleet agent for monitoring purpose
+- finished installing csi driver, configuring storage class for staging k8s cluster
+- progressed with the appscode license renewal process
+- upgraded all 40 fleet agents excluding registry-{02,03}, agrocd-02(added today)  as they were already running the latest versions
+- updated jira
+
+***
+***
