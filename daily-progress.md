@@ -3178,3 +3178,14 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 23-Oct-26
+
+- finished installing Prometheus, Grafana in staging k8s cluster, dashboards for pod level resource monitoring now up - links in jira task comment
+- updated credentials for Grafana in servers management sheet
+- appscode license renewal requires to use the community version or needs switching to commercial enterprise license
+- refreshed jira tasks with description & comments
+- got storage alerts for gitlab runner, already scheduled to run cleanup checked - eventually stopping the alerts
+
+***
+***
