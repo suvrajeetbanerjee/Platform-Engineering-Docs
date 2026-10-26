@@ -3189,3 +3189,12 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 26-Oct-26
+
+- discussion with team on dbaas setup & license renewal
+- diagnosed why gitlab-runner is still giving teams alert for low disk space
+- explored options for scaling k8s cluster size in appscode for the kubedb dbaas setup
+
+***
+***
