@@ -3192,9 +3192,10 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ## 26-Oct-26
 
-- discussion with team on dbaas setup & license renewal
-- diagnosed why gitlab-runner is still giving teams alert for low disk space
+- discussion with team on dbaas setup & license renewal, grafana for staging server, control nodes auto disk cleanup as for the earlier alerts for production cluster, slow read/write speed for elk nodes due to placement of data disks in sas-storage
+- diagnosed why gitlab-runner was still giving teams alert for low disk space & fixed the same by manually cleaning up docker images & build cache
 - explored options for scaling k8s cluster size in appscode for the kubedb dbaas setup
+- planned migration for k8s distribution from k3s to rke as the prd and the final end product result requires rancher as for managing the cluster & nodes.
 
 ***
 ***
