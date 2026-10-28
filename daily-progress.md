@@ -3199,3 +3199,12 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 27-Oct-26
+
+- created vm for rancher admin in openstack to work as the control dashboard for managing clusters, nodes, etc
+- reviewed how to setup audit logs for events using elastic security for siem solution for the portal
+- planned on how to setup alerts for grafana for pod-level monitoring stats
+
+***
+***
