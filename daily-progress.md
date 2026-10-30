@@ -3208,3 +3208,14 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 28-Oct-26
+
+- enrolled newly created vms to fleet servers list for vm monitoring which includes - vault02, vault03 & defectdojo
+- added qemu guest agent to view ip in Proxmox dashboard for the above mentioned vms, but could not check for new vms stats and verify weather qemu agent was installed via the ui because Proxmox gave authentication errors
+- progressed with setting up teams alert for pod level monitoring stats from grafana
+- for automating provisioning & configuration of load-balancers in kubedb, writing the IP into the VM's network settings (a fixed IP in its config) - is not needed on OpenStack. Neutron hands each VM its IP automatically
+- updated jira
+
+***
+***
