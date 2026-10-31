@@ -3219,3 +3219,18 @@ debugged dbaas setup reachability failure to the point where after ISP change, a
 
 ***
 ***
+
+## 29-Oct-26
+
+- completed setting up & successfully tested Grafana pod level monitoring for staging cluster by receiving alerts on teams channel
+- prometheus rules are yet to be set for alerting rules & threshold criteria
+- discussion with new team members:
+  - explained elk fleet vm alerting for teams setup & how to observe as well as take actions against alerts
+  - necessary steps to be taken after creating a new vm - update + upgrade + qemu-guest-agent installation
+- added qemu guest agent to product-frontend-hosting vm
+- updated servers management sheet - polished
+- revised the cleanup cronjob rule set to cleanup images + build cache for the gitlab vm as some images were not cleared on daily basis
+- updated jira
+
+***
+***
